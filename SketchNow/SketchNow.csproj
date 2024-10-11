@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+
+    <UseWPF>true</UseWPF>
+    <StartupObject>SketchNow.App</StartupObject>
+    <ApplicationIcon>Resources\AppIcon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <!--
+  Uncomment to enable single file exe publishing
+  https://learn.microsoft.com/dotnet/core/deploying/single-file/overview
+  
+  The Condition on PublishSingleFile is to prevent debugging issues while running as a single file.
+  Many debugging tools (Snoop, Visual Studio's UI debugging tools for XAML) will not function with PublishSingleFile set to true.
+  https://github.com/dotnet/runtime/issues/3773
+  -->
+  <!--
+  <PropertyGroup>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PublishSingleFile Condition="'$(Configuration)' != 'Debug'">true</PublishSingleFile>
+    <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <SelfContained>true</SelfContained>
+  </PropertyGroup>
+  -->
+
+  <ItemGroup>
+    <ApplicationDefinition Remove="App.xaml" />
+    <Content Include="Resources\AppIcon.ico" />
+    <Page Include="App.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" />
+    <PackageReference Include="MaterialDesignThemes" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="System.Text.Json" />
+    <PackageReference Include="ValueConverters" />
+    <PackageReference Include="Velopack" />
+    <PackageReference Include="WPF.JoshSmith.Controls.DragCanvas" />
+  </ItemGroup>
+</Project>
