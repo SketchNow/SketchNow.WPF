@@ -15,28 +15,49 @@ public partial class MainWindowViewModel : ObservableObject
 {
     [ObservableProperty] private CanvasPages _canvasPages = new();
     private int _previousPageIndex = 0;
-    [ObservableProperty] private ObservableCollection<Color> _colorList = [Color.FromRgb(28, 27, 31), Colors.White, Color.FromRgb(255, 26, 0), Color.FromRgb(47, 47, 255), Color.FromRgb(0, 174, 128), Color.FromRgb(157, 118, 241), Color.FromRgb(255, 219, 29), Color.FromRgb(234, 43, 180)];
+
+    [ObservableProperty] private ObservableCollection<Color> _colorList =
+    [
+        Color.FromRgb(28, 27, 31), Colors.White, Color.FromRgb(255, 26, 0), Color.FromRgb(47, 47, 255),
+        Color.FromRgb(0, 174, 128), Color.FromRgb(157, 118, 241), Color.FromRgb(255, 219, 29),
+        Color.FromRgb(234, 43, 180)
+    ];
+
     [ObservableProperty] private Color _selectedColor = Colors.Transparent;
     [ObservableProperty] private ObservableCollection<double> _strokeSizeList = [5, 7, 9, 11, 13, 20];
     [ObservableProperty] private double _selectedStrokeSize;
-    [ObservableProperty] private DrawingAttributes _currentDrawingAttributes = new() { Color = Colors.Transparent, IgnorePressure = false, FitToCurve = true, Height = 5, Width = 5 };
+
+    [ObservableProperty] private DrawingAttributes _currentDrawingAttributes = new()
+    {
+        Color = Colors.Transparent,
+        IgnorePressure = false,
+        FitToCurve = true,
+        Height = 5,
+        Width = 5
+    };
+
     [ObservableProperty] private InkCanvasEditingMode _selectedEditingMode = InkCanvasEditingMode.None;
+
     public enum WhiteBoardMode
     {
         Screen = 0,
-        MuiltPages = 1
+        MultiPages = 1
     }
+
     [ObservableProperty] private int _selectedToolIndex = 0;
     [ObservableProperty] private int _selectedCanvasModeIndex = (int)WhiteBoardMode.Screen;
     [ObservableProperty] private bool _isMultiPageMode = false;
     [ObservableProperty] private bool _useEraseByStroke = true;
     [ObservableProperty] private bool _useFitToCurve = true;
     [ObservableProperty] private Brush _inkCanvasBackground = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
-    
-    partial void OnSelectedStrokeSizeChanged(double value) => CurrentDrawingAttributes.Width = CurrentDrawingAttributes.Height = value;
+
+    partial void OnSelectedStrokeSizeChanged(double value) =>
+        CurrentDrawingAttributes.Width = CurrentDrawingAttributes.Height = value;
+
     partial void OnSelectedColorChanged(Color value) => CurrentDrawingAttributes.Color = value;
     partial void OnUseEraseByStrokeChanged(bool value) => OnSelectedToolIndexChanged(SelectedToolIndex);
     partial void OnUseFitToCurveChanged(bool value) => CurrentDrawingAttributes.FitToCurve = value;
+
     partial void OnSelectedToolIndexChanged(int value)
     {
         SelectedEditingMode = value switch
@@ -48,9 +69,13 @@ public partial class MainWindowViewModel : ObservableObject
             _ => InkCanvasEditingMode.None
         };
     }
+
+    [RelayCommand]
+    private void ToggleEditMode(int value) => SelectedToolIndex = value;
+
     partial void OnSelectedCanvasModeIndexChanged(int value)
     {
-        IsMultiPageMode = value == (int)WhiteBoardMode.MuiltPages;
+        IsMultiPageMode = value == (int)WhiteBoardMode.MultiPages;
         switch (value)
         {
             case (int)WhiteBoardMode.Screen:
@@ -59,7 +84,7 @@ public partial class MainWindowViewModel : ObservableObject
                     _previousPageIndex = CanvasPages.SelectedIndex;
                 CanvasPages.SelectedIndex = 0;
                 break;
-            case (int)WhiteBoardMode.MuiltPages:
+            case (int)WhiteBoardMode.MultiPages:
                 InkCanvasBackground = new SolidColorBrush(Colors.White);
                 if (CanvasPages.SelectedIndex == 0)
                     if (CanvasPages.Length == 1)
@@ -69,6 +94,11 @@ public partial class MainWindowViewModel : ObservableObject
                 break;
         }
     }
+
+    [RelayCommand]
+    private void ToggleMultiPageMode(bool value) => SelectedCanvasModeIndex =
+        value ? (int)WhiteBoardMode.MultiPages : (int)WhiteBoardMode.Screen;
+
     [RelayCommand]
     private static void CloseProgram()
     {

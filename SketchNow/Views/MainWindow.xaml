@@ -9,6 +9,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vms="clr-namespace:SketchNow.ViewModels"
+        xmlns:system="clr-namespace:System;assembly=System.Runtime"
         x:Name="window"
         Title="SketchNow"
         Width="800"
@@ -26,16 +27,49 @@
     <converters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
   </Window.Resources>
   <Window.InputBindings>
-    <KeyBinding Key="C" Command="{Binding ToolUseCursorCommand}" />
-    <KeyBinding Key="I" Command="{Binding ToolUseInkCommand}" />
-    <KeyBinding Key="E" Command="{Binding ToolUseEraserCommand}" />
-    <KeyBinding Key="S" Command="{Binding ToolUseSelectCommand}" />
+    <KeyBinding Key="C"
+                Command="{Binding ToggleEditModeCommand}"
+                Modifiers="Shift" >
+      <KeyBinding.CommandParameter>
+        <system:Int32>0</system:Int32>
+      </KeyBinding.CommandParameter>
+    </KeyBinding>
+    <KeyBinding Key="I"
+                Command="{Binding ToggleEditModeCommand}"
+                Modifiers="Shift" >
+      <KeyBinding.CommandParameter>
+        <system:Int32>1</system:Int32>
+      </KeyBinding.CommandParameter>
+    </KeyBinding>
+    <KeyBinding Key="E"
+                Command="{Binding ToggleEditModeCommand}"
+                Modifiers="Shift"  >
+      <KeyBinding.CommandParameter>
+        <system:Int32>2</system:Int32>
+      </KeyBinding.CommandParameter>
+    </KeyBinding>
     <KeyBinding Key="S"
-                Command="{Binding ToolUseScreenCommand}"
-                Modifiers="Alt" />
+                Command="{Binding ToggleEditModeCommand}"
+                Modifiers="Shift"  >
+      <KeyBinding.CommandParameter>
+        <system:Int32>3</system:Int32>
+      </KeyBinding.CommandParameter>
+    </KeyBinding>
+    <KeyBinding Key="S"
+                Command="{Binding ToggleMultiPageModeCommand}"
+                Modifiers="Alt">
+      <KeyBinding.CommandParameter>
+        <system:Boolean>False</system:Boolean>
+      </KeyBinding.CommandParameter>
+    </KeyBinding>
     <KeyBinding Key="B"
-                Command="{Binding ToolUseBoardCommand}"
-                Modifiers="Alt" />
+                Command="{Binding ToggleMultiPageModeCommand}"
+
+                Modifiers="Alt">
+      <KeyBinding.CommandParameter>
+        <system:Boolean>True</system:Boolean>
+      </KeyBinding.CommandParameter>
+    </KeyBinding>
     <KeyBinding Key="Z"
                 Command="{Binding CanvasPages.SelectedPage.UndoCommand}"
                 Modifiers="Ctrl" />
@@ -193,7 +227,8 @@
         <Run Text="At " />
         <Run Text="{Binding CanvasPages.SelectedIndex, Mode=OneWay}" />
         <Run Text="of " />
-        <Run Text="{Binding CanvasPages.Length, Mode=OneWay, ConverterParameter=-1, Converter={StaticResource MathAddConverter}}" />
+        <Run
+          Text="{Binding CanvasPages.Length, Mode=OneWay, ConverterParameter=-1, Converter={StaticResource MathAddConverter}}" />
         <Run Text=" Pages" />
       </TextBlock>
       <Button Height="48"
@@ -207,10 +242,11 @@
               Content="{materialDesign:PackIcon Kind=Plus}" />
     </StackPanel>
     <jas:DragCanvas>
-      <StackPanel Canvas.Left="{Binding (Canvas.Left), ElementName=ToolBar, ConverterParameter=81, Converter={StaticResource MathAddConverter}}"
-                  Canvas.Top="{Binding (Canvas.Top), ElementName=ToolBar, ConverterParameter=65, Converter={StaticResource MathAddConverter}}"
-                  jas:DragCanvas.CanBeDragged="False"
-                  Orientation="Horizontal">
+      <StackPanel
+        Canvas.Left="{Binding (Canvas.Left), ElementName=ToolBar, ConverterParameter=81, Converter={StaticResource MathAddConverter}}"
+        Canvas.Top="{Binding (Canvas.Top), ElementName=ToolBar, ConverterParameter=65, Converter={StaticResource MathAddConverter}}"
+        jas:DragCanvas.CanBeDragged="False"
+        Orientation="Horizontal">
         <Button Command="{Binding CanvasPages.SelectedPage.UndoCommand}"
                 Content="{materialDesign:PackIcon Kind=Undo}"
                 Style="{StaticResource MaterialDesignPaperDarkButton}" />
@@ -274,11 +310,12 @@
           </ListBoxItem>
         </ListBox>
       </StackPanel>
-      <StackPanel Canvas.Left="{Binding (Canvas.Left), Converter={StaticResource MathAddConverter}, ElementName=ToolBar, ConverterParameter=80}"
-                  Canvas.Top="{Binding (Canvas.Top), ConverterParameter=-36, Converter={StaticResource MathAddConverter}, ElementName=ToolBar}"
-                  jas:DragCanvas.CanBeDragged="False"
-                  Orientation="Horizontal"
-                  Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=ToolBarPen}">
+      <StackPanel
+        Canvas.Left="{Binding (Canvas.Left), Converter={StaticResource MathAddConverter}, ElementName=ToolBar, ConverterParameter=80}"
+        Canvas.Top="{Binding (Canvas.Top), ConverterParameter=-36, Converter={StaticResource MathAddConverter}, ElementName=ToolBar}"
+        jas:DragCanvas.CanBeDragged="False"
+        Orientation="Horizontal"
+        Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=ToolBarPen}">
         <ListBox x:Name="ColorList"
                  Margin="1"
                  ItemsSource="{Binding ColorList}"
@@ -287,7 +324,8 @@
                  Style="{StaticResource MaterialDesignToolToggleListBox}">
           <ListBox.ItemTemplate>
             <DataTemplate DataType="materialDesign:PackIcon">
-              <materialDesign:PackIcon Foreground="{Binding Converter={StaticResource ColorToBrushConverter}}" Kind="Circle" />
+              <materialDesign:PackIcon Foreground="{Binding Converter={StaticResource ColorToBrushConverter}}"
+                                       Kind="Circle" />
             </DataTemplate>
           </ListBox.ItemTemplate>
         </ListBox>

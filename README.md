@@ -22,6 +22,7 @@ A application brings the ability to draw on your screen
 - [Material Design in XAML](https://github.com/MaterialDesignInXAML/MaterialDesignInXamlToolkit)
 - [ValueConverters.NET](https://github.com/thomasgalliker/ValueConverters.NET)
 - [WPF.JoshSmith.Controls.DragCanvas](https://github.com/denxorz/WPF.JoshSmith.Controls.DragCanvas)
+- [Velopack](https://github.com/velopack/velopack)
 - Moq.AutoMocker
 - System.Text.Json
 - Microsoft.Extensions.Hosting
