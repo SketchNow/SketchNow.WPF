@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Messaging;
+
 using MaterialDesignThemes.Wpf;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,6 +13,7 @@ using System.Windows;
 using System.Windows.Threading;
 
 using Velopack;
+using Velopack.Sources;
 
 namespace SketchNow;
 
@@ -22,10 +25,29 @@ public partial class App : Application
     [STAThread]
     private static void Main(string[] args)
     {
+#if !DEBUG
         VelopackApp.Build().Run();
+        UpdateMyApp().GetAwaiter().GetResult();
+#endif
         MainAsync(args).GetAwaiter().GetResult();
     }
+#if !DEBUG
+    private static async Task UpdateMyApp()
+    {
+        var mgr = new UpdateManager(new GithubSource("https://github.com/SketchNow/SketchNow.WPF", null, false ,null));
 
+        // check for new version
+        var newVersion = await mgr.CheckForUpdatesAsync();
+        if (newVersion == null)
+            return; // no update available
+
+        // download new version
+        await mgr.DownloadUpdatesAsync(newVersion);
+
+        // install new version and restart app
+        mgr.ApplyUpdatesAndRestart(newVersion);
+    }
+#endif
     private static async Task MainAsync(string[] args)
     {
         using IHost host = CreateHostBuilder(args).Build();
