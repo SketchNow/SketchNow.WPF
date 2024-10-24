@@ -1,9 +1,11 @@
 # SketchNow
 [![Issues](https://img.shields.io/github/issues/SketchNow/SketchNow.WPF.svg)](https://github.com/SketchNow/SktechNow.WPF/issues)
 
-A application brings the ability to draw on your screen
+A application brings the ability to draw on your screen(anywhere)
 > [!CAUTION]
 > Still developing. To avoid potential risks, please don't install in the production environment
+
+![Screenshot of you are using a desktop application with SketchNow](screenshot.png)
 
 ### Contribute
 1. Follow the `.editorconfig`
