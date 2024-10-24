@@ -8,8 +8,9 @@
         xmlns:local="clr-namespace:SketchNow"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vms="clr-namespace:SketchNow.ViewModels"
         xmlns:system="clr-namespace:System;assembly=System.Runtime"
+        xmlns:views="clr-namespace:SketchNow.Views"
+        xmlns:vms="clr-namespace:SketchNow.ViewModels"
         x:Name="window"
         Title="SketchNow"
         Width="800"
@@ -29,28 +30,28 @@
   <Window.InputBindings>
     <KeyBinding Key="C"
                 Command="{Binding ToggleEditModeCommand}"
-                Modifiers="Shift" >
+                Modifiers="Shift">
       <KeyBinding.CommandParameter>
         <system:Int32>0</system:Int32>
       </KeyBinding.CommandParameter>
     </KeyBinding>
     <KeyBinding Key="I"
                 Command="{Binding ToggleEditModeCommand}"
-                Modifiers="Shift" >
+                Modifiers="Shift">
       <KeyBinding.CommandParameter>
         <system:Int32>1</system:Int32>
       </KeyBinding.CommandParameter>
     </KeyBinding>
     <KeyBinding Key="E"
                 Command="{Binding ToggleEditModeCommand}"
-                Modifiers="Shift"  >
+                Modifiers="Shift">
       <KeyBinding.CommandParameter>
         <system:Int32>2</system:Int32>
       </KeyBinding.CommandParameter>
     </KeyBinding>
     <KeyBinding Key="S"
                 Command="{Binding ToggleEditModeCommand}"
-                Modifiers="Shift"  >
+                Modifiers="Shift">
       <KeyBinding.CommandParameter>
         <system:Int32>3</system:Int32>
       </KeyBinding.CommandParameter>
@@ -64,7 +65,6 @@
     </KeyBinding>
     <KeyBinding Key="B"
                 Command="{Binding ToggleMultiPageModeCommand}"
-
                 Modifiers="Alt">
       <KeyBinding.CommandParameter>
         <system:Boolean>True</system:Boolean>
@@ -96,105 +96,7 @@
           <ScrollViewer Grid.Row="0"
                         HorizontalScrollBarVisibility="Auto"
                         VerticalScrollBarVisibility="Auto">
-            <StackPanel>
-              <GroupBox Margin="5" Header="General">
-                <Button Command="{Binding CloseProgramCommand}" Content="Exit Program" />
-              </GroupBox>
-              <GroupBox Margin="5" Header="Ink">
-                <Grid VerticalAlignment="Center">
-                  <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                  </Grid.ColumnDefinitions>
-                  <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                  </Grid.RowDefinitions>
-                  <TextBlock Grid.Row="0"
-                             Grid.Column="0"
-                             Text="Ink Smooth" />
-                  <ToggleButton Grid.Row="0"
-                                Grid.Column="1"
-                                IsChecked="{Binding CurrentDrawingAttributes.FitToCurve}"
-                                Style="{StaticResource MaterialDesignSwitchToggleButton}" />
-                  <TextBlock Grid.Row="1"
-                             Grid.Column="0"
-                             Margin="0,5,0,0"
-                             Text="Ignore Pressure" />
-                  <ToggleButton Grid.Row="1"
-                                Grid.Column="1"
-                                Margin="0,5,0,0"
-                                IsChecked="{Binding CurrentDrawingAttributes.IgnorePressure}"
-                                Style="{StaticResource MaterialDesignSwitchToggleButton}" />
-                </Grid>
-              </GroupBox>
-              <GroupBox Margin="5" Header="Eraser">
-                <Grid VerticalAlignment="Center">
-                  <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                  </Grid.ColumnDefinitions>
-                  <TextBlock Grid.Column="0" Text="Erase by stroke" />
-                  <ToggleButton Grid.Column="1"
-                                IsChecked="{Binding UseEraseByStroke}"
-                                Style="{StaticResource MaterialDesignSwitchToggleButton}">
-                    <materialDesign:PackIcon Kind="VectorPoint" />
-                    <materialDesign:ToggleButtonAssist.OnContent>
-                      <materialDesign:PackIcon Kind="VectorLine" />
-                    </materialDesign:ToggleButtonAssist.OnContent>
-                  </ToggleButton>
-                </Grid>
-              </GroupBox>
-              <GroupBox Margin="5" Header="Canvas">
-                <Grid VerticalAlignment="Center">
-                  <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                  </Grid.ColumnDefinitions>
-                  <TextBlock Grid.Column="0" Text="Background" />
-                  <ComboBox Grid.Column="1" SelectedIndex="0">
-                    <ComboBoxItem Content="Solid Color" />
-                    <ComboBoxItem Content="Texture" />
-                    <ComboBoxItem Content="Picture" />
-                  </ComboBox>
-                </Grid>
-              </GroupBox>
-              <GroupBox Margin="5" Header="Test">
-                <Grid>
-                  <TextBlock>
-                    <Run x:Name="TestInkCanvasDebugInfo"
-                         Background="Black"
-                         Foreground="Yellow" />
-                  </TextBlock>
-                  <InkCanvas x:Name="TestInkCanvas" TouchDown="TestInkCanvas_OnTouchDown" />
-                </Grid>
-              </GroupBox>
-              <Grid Margin="12">
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="Auto" />
-                  <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <materialDesign:PackIcon Grid.Column="0"
-                                         Width="42"
-                                         Height="42"
-                                         Margin="0,0,8,0"
-                                         Kind="ScaleBalance" />
-                <Grid Grid.Column="1">
-                  <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                  </Grid.RowDefinitions>
-                  <TextBlock>
-                    <Hyperlink IsEnabled="False" Style="{StaticResource MaterialDesignSubtitle1Hyperlink}">
-                      SketchNow is licensed under the
-                    </Hyperlink>
-                  </TextBlock>
-                  <TextBlock Grid.Row="1"
-                             Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                             Text="MIT License" />
-                </Grid>
-              </Grid>
-            </StackPanel>
+            <views:SettingsView />
           </ScrollViewer>
           <StackPanel Grid.Row="1"
                       HorizontalAlignment="Right"
@@ -221,32 +123,27 @@
                 VerticalAlignment="Bottom"
                 Orientation="Horizontal"
                 Visibility="{Binding IsMultiPageMode, Converter={StaticResource BooleanToVisibilityConverter}}">
-      <TextBlock VerticalAlignment="Center"
-                 Background="Aqua"
-                 Foreground="Black">
-        <Run Text="At " />
-        <Run Text="{Binding CanvasPages.SelectedIndex, Mode=OneWay}" />
-        <Run Text="of " />
-        <Run
-          Text="{Binding CanvasPages.Length, Mode=OneWay, ConverterParameter=-1, Converter={StaticResource MathAddConverter}}" />
-        <Run Text=" Pages" />
-      </TextBlock>
       <Button Height="48"
               Command="{Binding CanvasPages.PreviousCommand}"
               Content="{materialDesign:PackIcon Kind=ArrowLeft}" />
       <Button Height="48"
               Command="{Binding CanvasPages.NextCommand}"
               Content="{materialDesign:PackIcon Kind=ArrowRight}" />
+      <Button Width="200"
+              Height="48"
+              Background="#989898"
+              Foreground="#989898">
+        <TextBlock VerticalAlignment="Center" Foreground="Black"><Run Text="At " /><Run Text=" " /><Run Text="{Binding CanvasPages.SelectedIndex, Mode=OneWay}" /><Run Text=" " /><Run Text="of " /><Run Text=" " /><Run Text="{Binding CanvasPages.Length, ConverterParameter=-1, Converter={StaticResource MathAddConverter}, Mode=OneWay}" /><Run Text=" " /><Run Text=" Pages" /></TextBlock>
+      </Button>
       <Button Height="48"
               Command="{Binding CanvasPages.AddPageCommand}"
               Content="{materialDesign:PackIcon Kind=Plus}" />
     </StackPanel>
     <jas:DragCanvas>
-      <StackPanel
-        Canvas.Left="{Binding (Canvas.Left), ElementName=ToolBar, ConverterParameter=81, Converter={StaticResource MathAddConverter}}"
-        Canvas.Top="{Binding (Canvas.Top), ElementName=ToolBar, ConverterParameter=65, Converter={StaticResource MathAddConverter}}"
-        jas:DragCanvas.CanBeDragged="False"
-        Orientation="Horizontal">
+      <StackPanel Canvas.Left="{Binding (Canvas.Left), ElementName=ToolBar, ConverterParameter=81, Converter={StaticResource MathAddConverter}}"
+                  Canvas.Top="{Binding (Canvas.Top), ElementName=ToolBar, ConverterParameter=65, Converter={StaticResource MathAddConverter}}"
+                  jas:DragCanvas.CanBeDragged="False"
+                  Orientation="Horizontal">
         <Button Command="{Binding CanvasPages.SelectedPage.UndoCommand}"
                 Content="{materialDesign:PackIcon Kind=Undo}"
                 Style="{StaticResource MaterialDesignPaperDarkButton}" />
@@ -310,12 +207,11 @@
           </ListBoxItem>
         </ListBox>
       </StackPanel>
-      <StackPanel
-        Canvas.Left="{Binding (Canvas.Left), Converter={StaticResource MathAddConverter}, ElementName=ToolBar, ConverterParameter=80}"
-        Canvas.Top="{Binding (Canvas.Top), ConverterParameter=-36, Converter={StaticResource MathAddConverter}, ElementName=ToolBar}"
-        jas:DragCanvas.CanBeDragged="False"
-        Orientation="Horizontal"
-        Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=ToolBarPen}">
+      <StackPanel Canvas.Left="{Binding (Canvas.Left), Converter={StaticResource MathAddConverter}, ElementName=ToolBar, ConverterParameter=80}"
+                  Canvas.Top="{Binding (Canvas.Top), ConverterParameter=-36, Converter={StaticResource MathAddConverter}, ElementName=ToolBar}"
+                  jas:DragCanvas.CanBeDragged="False"
+                  Orientation="Horizontal"
+                  Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=ToolBarPen}">
         <ListBox x:Name="ColorList"
                  Margin="1"
                  ItemsSource="{Binding ColorList}"
@@ -324,8 +220,7 @@
                  Style="{StaticResource MaterialDesignToolToggleListBox}">
           <ListBox.ItemTemplate>
             <DataTemplate DataType="materialDesign:PackIcon">
-              <materialDesign:PackIcon Foreground="{Binding Converter={StaticResource ColorToBrushConverter}}"
-                                       Kind="Circle" />
+              <materialDesign:PackIcon Foreground="{Binding Converter={StaticResource ColorToBrushConverter}}" Kind="Circle" />
             </DataTemplate>
           </ListBox.ItemTemplate>
         </ListBox>
