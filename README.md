@@ -14,6 +14,16 @@ A application brings the ability to draw on your screen
 - Windows 10 or greater
 - Visual Studio 2022/JetBrains Rider
 - .NET Desktop workload with `.NET 8`
+### Publish
+We are using [Velopack](https://github.com/velopack/velopack) to generate release
+
+Before you using following commands, please ensure that you have read [this](https://docs.velopack.io/getting-started/csharp)
+```shell
+dotnet publish -c Release --self-contained -r win-x64 -o .\publish
+```
+```shell
+vpk pack -u SketchNow -v 1.0.0 -p .\publish -e SketchNow.ex
+```
 ### Test
 - Moq.AutoMocker
 ### Credit
