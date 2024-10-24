@@ -7,6 +7,12 @@ A application brings the ability to draw on your screen(anywhere)
 
 ![Screenshot of you are using a desktop application with SketchNow](screenshot.png)
 
+### Install
+
+Go [release](https://github.com/SketchNow/SketchNow.WPF/releases), and choose the version you want.
+
+If you want have a taste of the latest commited code, you can go [actions](https://github.com/SketchNow/SketchNow.WPF/actions), and download the `app` of all `artifacts`  
+
 ### Contribute
 1. Follow the `.editorconfig`
 2. Use `Xaml Styler` to format xaml (Xaml Styler file at [Settings.XamlStyler](Settings.XamlStyler))
