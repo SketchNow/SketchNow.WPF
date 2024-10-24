@@ -37,7 +37,7 @@ public partial class MainWindowViewModel : ObservableObject
         FitToCurve = Settings.Default.FitToCurve,
         Height = 5,
         Width = 5,
-        IsHighlighter = true
+        IsHighlighter = false
     };
     [ObservableProperty] private InkCanvasEditingMode _selectedEditingMode = InkCanvasEditingMode.None;
 
