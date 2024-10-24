@@ -9,6 +9,7 @@ A application brings the ability to draw on your screen
 1. Follow the `.editorconfig`
 2. Use `Xaml Styler` to format xaml (Xaml Styler file at [Settings.XamlStyler](Settings.XamlStyler))
 3. Follow [`Conventional Commits`](https://www.conventionalcommits.org/en/v1.0.0/)
+4. Follow [`Semantic Versioning`](https://semver.org/)
 ### Build
 - Windows 10 or greater
 - Visual Studio 2022/JetBrains Rider

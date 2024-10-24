@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Ink;
+
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -10,6 +11,9 @@ public partial class CanvasPage : ObservableObject
     [ObservableProperty]
     private StrokeCollection _strokes = [];
 
+    /// <summary>
+    /// To Notify the Not ObservableProperty <see cref="_strokes"/>
+    /// </summary>
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(UndoCommand), nameof(RedoCommand), nameof(ClearCommand))]
     private int _counter;
@@ -22,12 +26,16 @@ public partial class CanvasPage : ObservableObject
         Strokes.StrokesChanged += Strokes_Changed;
         _undoStack.Add(CloneStrokeCollection(_strokes));
     }
-
+    private void ChangeCounter()
+    {
+        Counter++;
+        Counter=0;
+    }
     private void Strokes_Changed(object sender, StrokeCollectionChangedEventArgs e)
     {
         _undoStack.Add(CloneStrokeCollection(Strokes));
         _redoStack.Clear();
-        Counter++;
+        ChangeCounter();
     }
 
     [RelayCommand(CanExecute = nameof(CanUndo))]
@@ -36,7 +44,7 @@ public partial class CanvasPage : ObservableObject
         _redoStack.Add(CloneStrokeCollection(Strokes));
         _undoStack.RemoveAt(_undoStack.Count - 1);
         Strokes = CloneStrokeCollection(_undoStack[^1]);
-        Counter--;
+        ChangeCounter();
     }
 
     private bool CanUndo() => _undoStack.Count > 1;
@@ -47,7 +55,7 @@ public partial class CanvasPage : ObservableObject
         _undoStack.Add(CloneStrokeCollection(Strokes));
         Strokes = CloneStrokeCollection(_redoStack[^1]);
         _redoStack.RemoveAt(_redoStack.Count - 1);
-        Counter++;
+        ChangeCounter();
     }
 
     private bool CanRedo() => _redoStack.Count > 0;
@@ -72,14 +80,15 @@ public partial class CanvasPage : ObservableObject
 }
 public partial class CanvasPages : ObservableObject
 {
+    /// <summary>
+    /// Page 1 was reserved by default desktop canvas. For the convenience of managing <see cref="CanvasPages"/>, the latter <see cref="CanvasPages"/> are Board pages.
+    /// </summary>
+    [ObservableProperty] private ObservableCollection<CanvasPage> _pages = [new()];
+    [ObservableProperty] private int _length;
     [ObservableProperty]
-    private ObservableCollection<CanvasPage> _pages = [new()];
-    [ObservableProperty]
-    private int _length;
-    [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(PreviousCommand), nameof(NextCommand))]
     [NotifyPropertyChangedFor(nameof(SelectedPage))]
-    private int _selectedIndex = 0;
+    [NotifyCanExecuteChangedFor(nameof(PreviousCommand), nameof(NextCommand))]
+    private int _selectedIndex;
     public CanvasPage SelectedPage
     {
         get => Pages[SelectedIndex];
