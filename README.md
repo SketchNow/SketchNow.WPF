@@ -30,7 +30,7 @@ Before you using following commands, please ensure that you have read [this](htt
 dotnet publish -c Release --self-contained -r win-x64 -o .\publish
 ```
 ```shell
-vpk pack -u SketchNow -v 1.0.0 -p .\publish -e SketchNow.ex
+vpk pack -u SketchNow -v 1.0.0 -p .\publish -e SketchNow.exe
 ```
 ### Test
 - Moq.AutoMocker
