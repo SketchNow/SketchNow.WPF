@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -20,8 +21,13 @@ public partial class MainWindowViewModel : ObservableObject
     [ObservableProperty]
     private ObservableCollection<Color> _colorList =
     [
-        Color.FromRgb(28, 27, 31), Colors.White, Color.FromRgb(255, 26, 0), Color.FromRgb(47, 47, 255),
-        Color.FromRgb(0, 174, 128), Color.FromRgb(157, 118, 241), Color.FromRgb(255, 219, 29),
+        Color.FromRgb(28, 27, 31),
+        Colors.White,
+        Color.FromRgb(255, 26, 0),
+        Color.FromRgb(47, 47, 255),
+        Color.FromRgb(0, 174, 128),
+        Color.FromRgb(157, 118, 241),
+        Color.FromRgb(255, 219, 29),
         Color.FromRgb(234, 43, 180)
     ];
 
@@ -51,8 +57,36 @@ public partial class MainWindowViewModel : ObservableObject
     [ObservableProperty] private int _selectedCanvasModeIndex = (int)WhiteBoardMode.Screen;
     [ObservableProperty] private bool _isMultiPageMode = false;
     [ObservableProperty] private bool _useEraseByStroke = Settings.Default.EraseByStroke;
-    [ObservableProperty] private Brush _inkCanvasBackground = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
-
+    [ObservableProperty] private ObservableCollection<Brush> _brushs =
+    [
+        new SolidColorBrush(Colors.White),
+        new SolidColorBrush(Color.FromRgb(255, 253, 209)),
+        new SolidColorBrush(Color.FromRgb(1, 71, 54)),
+        new SolidColorBrush(Color.FromRgb(25, 25, 25)),
+        new DrawingBrush
+        {
+            Viewport = new Rect(0, 0, 50, 50),
+            ViewportUnits = BrushMappingMode.Absolute,
+            TileMode = TileMode.Tile,
+            Drawing = new DrawingGroup
+            {
+                Children =
+                {
+                    new GeometryDrawing
+                    {
+                        Brush = Brushes.White,
+                        Geometry = new RectangleGeometry(new Rect(0, 0, 1, 1))
+                    },
+                    new GeometryDrawing
+                    {
+                        Brush = new SolidColorBrush(Color.FromArgb(50,255,244,103)),
+                        Geometry = Geometry.Parse("M 0,0 L 0,1 0.1,1 0.1,0.1 1,0.1 1,0 Z")
+                    }
+                }
+            }
+        }
+    ];
+    [ObservableProperty] private Brush _selectedBrush = new SolidColorBrush(Colors.White);
     partial void OnSelectedStrokeSizeChanged(double value) =>
         CurrentDrawingAttributes.Width = CurrentDrawingAttributes.Height = value;
     partial void OnSelectedColorChanged(Color value) => CurrentDrawingAttributes.Color = value;
@@ -76,20 +110,17 @@ public partial class MainWindowViewModel : ObservableObject
 
     [RelayCommand]
     private void ToggleEditMode(int value) => SelectedToolIndex = value;
-
     partial void OnSelectedCanvasModeIndexChanged(int value)
     {
         IsMultiPageMode = value == (int)WhiteBoardMode.MultiPages;
         switch (value)
         {
             case (int)WhiteBoardMode.Screen:
-                InkCanvasBackground = new SolidColorBrush(Colors.Transparent);
                 if (CanvasPages.SelectedIndex != 0)
                     _previousPageIndex = CanvasPages.SelectedIndex;
                 CanvasPages.SelectedIndex = 0;
                 break;
             case (int)WhiteBoardMode.MultiPages:
-                InkCanvasBackground = new SolidColorBrush(Colors.White);
                 if (CanvasPages.SelectedIndex == 0)
                     if (CanvasPages.Length == 1)
                         CanvasPages.AddPageCommand.Execute(null);

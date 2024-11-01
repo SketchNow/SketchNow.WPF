@@ -11,12 +11,5 @@ namespace SketchNow.Views
         {
             InitializeComponent();
         }
-        
-        private void TestInkCanvas_OnTouchDown(object? sender, TouchEventArgs e)
-        {
-            var touchPoint = e.GetTouchPoint(TestInkCanvas);
-            TestInkCanvasDebugInfo.Text = $"X: {touchPoint.Position.X}, Y: {touchPoint.Position.Y}";
-            TestInkCanvasDebugInfo.Text += ($"Height: {touchPoint.Bounds.Height}, Width: {touchPoint.Bounds.Width}");
-        }
     }
 }

@@ -16,6 +16,8 @@ using System.Windows.Threading;
 
 using Microsoft.VisualBasic;
 
+using SingleInstanceCore;
+
 using Velopack;
 using Velopack.Sources;
 
@@ -24,16 +26,16 @@ namespace SketchNow;
 /// <summary>
 /// Interaction logic for App.xaml
 /// </summary>
-public partial class App : Application
+public partial class App : Application , ISingleInstance
 {
 #if !DEBUG
     public App()
     {
-        this.Startup += AppStartup;
-        this.Exit += AppExit;
+        this.Startup += Application_Startup;
+        this.Exit += Application_Exit;
     }
 
-    void AppStartup(object sender, StartupEventArgs e)
+    void Application_Startup(object sender, StartupEventArgs e)
     {
         //UI Thread
         this.DispatcherUnhandledException += AppDispatcherUnhandledException;
@@ -41,10 +43,22 @@ public partial class App : Application
         TaskScheduler.UnobservedTaskException += TaskSchedulerUnobservedTaskException;
         //Non-UI Thread
         AppDomain.CurrentDomain.UnhandledException += CurrentDomainUnhandledException;
+        
+        bool isFirstInstance = this.InitializeAsFirstInstance("SketchNow");
+        if (!isFirstInstance)
+        {
+            //If it's not the first instance, arguments are automatically passed to the first instance
+            //OnInstanceInvoked will be raised on the first instance
+            //You may shut down the current instance
+            Current.Shutdown();
+        }
+        
     }
 
-    static void AppExit(object sender, ExitEventArgs e)
+    static void Application_Exit(object sender, ExitEventArgs e)
     {
+        //Do not forget to cleanup
+        SingleInstance.Cleanup();
     }
 
     static void AppDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
@@ -162,4 +176,9 @@ public partial class App : Application
                     return new SnackbarMessageQueue(TimeSpan.FromSeconds(3.0), dispatcher);
                 });
             });
+
+    public void OnInstanceInvoked(string[] args)
+    {
+        
+    }
 }
