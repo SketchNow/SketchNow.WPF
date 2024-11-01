@@ -72,17 +72,18 @@
     </KeyBinding>
     <KeyBinding Key="Z"
                 Command="{Binding CanvasPages.SelectedPage.UndoCommand}"
-                Modifiers="Ctrl" />
+                Modifiers="Control" />
     <KeyBinding Key="Y"
                 Command="{Binding CanvasPages.SelectedPage.RedoCommand}"
-                Modifiers="Ctrl" />
+                Modifiers="Control" />
   </Window.InputBindings>
   <Window.Style>
     <StaticResource ResourceKey="MaterialDesignWindow" />
   </Window.Style>
   <Grid>
+    <Canvas Background="{Binding SelectedBrush}" Visibility="{Binding IsMultiPageMode, Converter={StaticResource BooleanToVisibilityConverter}}"/>
     <InkCanvas x:Name="inkCanvas"
-               Background="{Binding InkCanvasBackground}"
+               Background="Transparent"
                DefaultDrawingAttributes="{Binding CurrentDrawingAttributes}"
                EditingMode="{Binding SelectedEditingMode}"
                Strokes="{Binding CanvasPages.SelectedPage.Strokes}" />

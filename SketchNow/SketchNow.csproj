@@ -38,6 +38,7 @@
     <PackageReference Include="MaterialDesignThemes" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
     <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="SingleInstanceCore" />
     <PackageReference Include="System.Text.Json" />
     <PackageReference Include="ValueConverters" />
     <PackageReference Include="Velopack" />
