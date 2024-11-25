@@ -12,13 +12,11 @@
              Height="48"
              Background="Transparent"
              ToolTip="{Binding ToolTip, RelativeSource={RelativeSource AncestorType=UserControl}}">
-    <TextBlock x:Name="ItemText"
-               HorizontalAlignment="Center"
+    <TextBlock HorizontalAlignment="Center"
                DockPanel.Dock="Bottom"
                Text="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}}"
                TextTrimming="CharacterEllipsis" />
-    <materialDesign:PackIcon x:Name="ItemIcon"
-                             Width="24"
+    <materialDesign:PackIcon Width="24"
                              Height="24"
                              HorizontalAlignment="Center"
                              VerticalAlignment="Center"

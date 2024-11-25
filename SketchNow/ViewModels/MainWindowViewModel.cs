@@ -2,8 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Ink;
+using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -15,11 +15,11 @@ namespace SketchNow.ViewModels;
 
 public partial class MainWindowViewModel : ObservableObject
 {
+    private readonly CustomCursors _customCursors = new();
+    [ObservableProperty] private Cursor _inkCanvasCursor = Cursors.Arrow;
     [ObservableProperty] private CanvasPages _canvasPages = new();
-    private int _previousPageIndex = 0;
-
-    [ObservableProperty]
-    private ObservableCollection<Color> _colorList =
+    private int _previousPageIndex;
+    [ObservableProperty] private ObservableCollection<Color> _colorList =
     [
         Color.FromRgb(28, 27, 31),
         Colors.White,
@@ -30,15 +30,14 @@ public partial class MainWindowViewModel : ObservableObject
         Color.FromRgb(255, 219, 29),
         Color.FromRgb(234, 43, 180)
     ];
-
-    [ObservableProperty] private Color _selectedColor = Colors.Transparent;
+    [ObservableProperty] private Color _selectedColor = Colors.Black;
     [ObservableProperty] private ObservableCollection<double> _strokeSizeList = [5, 7, 9, 11, 13, 20];
     [ObservableProperty] private double _selectedStrokeSize;
 
     [ObservableProperty]
     private DrawingAttributes _currentDrawingAttributes = new()
     {
-        Color = Colors.Transparent,
+        Color = Colors.Black,
         IgnorePressure = Settings.Default.IgnorePressure,
         FitToCurve = Settings.Default.FitToCurve,
         Height = 5,
@@ -46,18 +45,16 @@ public partial class MainWindowViewModel : ObservableObject
         IsHighlighter = false
     };
     [ObservableProperty] private InkCanvasEditingMode _selectedEditingMode = InkCanvasEditingMode.None;
-
     public enum WhiteBoardMode
     {
         Screen = 0,
         MultiPages = 1
     }
-
-    [ObservableProperty] private int _selectedToolIndex = 0;
+    [ObservableProperty] private int _selectedToolIndex;
     [ObservableProperty] private int _selectedCanvasModeIndex = (int)WhiteBoardMode.Screen;
-    [ObservableProperty] private bool _isMultiPageMode = false;
+    [ObservableProperty] private bool _isMultiPageMode;
     [ObservableProperty] private bool _useEraseByStroke = Settings.Default.EraseByStroke;
-    [ObservableProperty] private ObservableCollection<Brush> _brushs =
+    [ObservableProperty] private ObservableCollection<Brush> _backGroundBrushes =
     [
         new SolidColorBrush(Colors.White),
         new SolidColorBrush(Color.FromRgb(255, 253, 209)),
@@ -87,6 +84,7 @@ public partial class MainWindowViewModel : ObservableObject
         }
     ];
     [ObservableProperty] private Brush _selectedBrush = new SolidColorBrush(Colors.White);
+    [ObservableProperty] private Brush _windowBackgroundBrush = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
     partial void OnSelectedStrokeSizeChanged(double value) =>
         CurrentDrawingAttributes.Width = CurrentDrawingAttributes.Height = value;
     partial void OnSelectedColorChanged(Color value) => CurrentDrawingAttributes.Color = value;
@@ -105,6 +103,20 @@ public partial class MainWindowViewModel : ObservableObject
             2 => UseEraseByStroke ? InkCanvasEditingMode.EraseByStroke : InkCanvasEditingMode.EraseByPoint,
             3 => InkCanvasEditingMode.Select,
             _ => InkCanvasEditingMode.None
+        };
+        WindowBackgroundBrush = value switch
+        {
+            0 => new SolidColorBrush(Color.FromArgb(0, 0, 0, 0)),
+            1 => new SolidColorBrush(Color.FromArgb(1, 0, 0, 0)),
+            _ => new SolidColorBrush(Color.FromArgb(1, 0, 0, 0))
+        };
+        InkCanvasCursor = value switch
+        {
+            0 => Cursors.Arrow,
+            1 => _customCursors.Circle,
+            2 => _customCursors.Remove,
+            3 => _customCursors.Select,
+            _ => Cursors.Arrow
         };
     }
 
@@ -139,7 +151,7 @@ public partial class MainWindowViewModel : ObservableObject
         value ? (int)WhiteBoardMode.MultiPages : (int)WhiteBoardMode.Screen;
     public MainWindowViewModel()
     {
-        CurrentDrawingAttributes.AttributeChanged += (sender, e) =>
+        CurrentDrawingAttributes.AttributeChanged += (_, _) =>
         {
             Settings.Default.FitToCurve = CurrentDrawingAttributes.FitToCurve;
             Settings.Default.IgnorePressure = CurrentDrawingAttributes.IgnorePressure;

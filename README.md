@@ -1,7 +1,7 @@
 # SketchNow
 [![Issues](https://img.shields.io/github/issues/SketchNow/SketchNow.WPF.svg)](https://github.com/SketchNow/SktechNow.WPF/issues)
 
-A application brings the ability to draw on your screen(anywhere)
+An application brings the ability to draw on your screen(anywhere)
 > [!CAUTION]
 > Still developing. To avoid potential risks, please don't install in the production environment
 
@@ -11,7 +11,9 @@ A application brings the ability to draw on your screen(anywhere)
 
 Go [release](https://github.com/SketchNow/SketchNow.WPF/releases), and choose the version you want.
 
-If you want have a taste of the latest commited code, you can go [actions](https://github.com/SketchNow/SketchNow.WPF/actions), and download the `app` of all `artifacts`  
+If you want to have a taste of the latest commited code,
+you can go [actions](https://github.com/SketchNow/SketchNow.WPF/actions),
+and download the `app` of all `artifacts`  
 
 ### Contribute
 1. Follow the `.editorconfig`
@@ -21,11 +23,12 @@ If you want have a taste of the latest commited code, you can go [actions](https
 ### Build
 - Windows 10 or greater
 - Visual Studio 2022/JetBrains Rider
-- .NET Desktop workload with `.NET 8`
+- .NET Desktop workload with `.NET 9`
 ### Publish
 We are using [Velopack](https://github.com/velopack/velopack) to generate release
 
-Before you using following commands, please ensure that you have read [this](https://docs.velopack.io/getting-started/csharp)
+Before you use the following commands,
+please ensure that you have read [this](https://docs.velopack.io/getting-started/csharp)
 ```shell
 dotnet publish -c Release --self-contained -r win-x64 -o .\publish
 ```

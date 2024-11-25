@@ -23,29 +23,4 @@ public partial class MainWindow
     {
         Close();
     }
-
-    private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-        if (sender is not ListBox box)
-        {
-            return;
-        }
-
-        switch (box.SelectedIndex)
-        {
-            case 0:
-                Background = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
-                inkCanvas.UseCustomCursor = false;
-                break;
-            case 1:
-                Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0));
-                inkCanvas.UseCustomCursor = true;
-                inkCanvas.Cursor = Cursors.Pen;
-                break;
-            default:
-                Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0));
-                inkCanvas.UseCustomCursor = false;
-                break;
-        }
-    }
 }

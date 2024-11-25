@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net9.0-windows</TargetFramework>
 
     <UseWPF>true</UseWPF>
     <StartupObject>SketchNow.App</StartupObject>
@@ -30,6 +30,9 @@
 
   <ItemGroup>
     <ApplicationDefinition Remove="App.xaml" />
+    <None Remove="Resources\Circle.cur" />
+    <None Remove="Resources\Remove.cur" />
+    <None Remove="Resources\Select.cur" />
     <Page Include="App.xaml" />
   </ItemGroup>
 
@@ -41,8 +44,13 @@
     <PackageReference Include="SingleInstanceCore" />
     <PackageReference Include="System.Text.Json" />
     <PackageReference Include="ValueConverters" />
-    <PackageReference Include="Velopack" />
     <PackageReference Include="WPF.JoshSmith.Controls.DragCanvas" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Circle.cur" />
+    <Resource Include="Resources\Remove.cur" />
+    <Resource Include="Resources\Select.cur" />
   </ItemGroup>
 
   <ItemGroup>

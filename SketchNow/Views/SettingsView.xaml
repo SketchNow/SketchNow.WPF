@@ -92,7 +92,7 @@
       </Grid>
     </StackPanel>
     <GroupBox Grid.Column="1" Margin="5" Header="Background">
-      <ListBox ItemsSource="{Binding Brushs}" SelectedItem="{Binding SelectedBrush}">
+      <ListBox ItemsSource="{Binding BackGroundBrushes}" SelectedItem="{Binding SelectedBrush}">
         <ListBox.ItemsPanel>
           <ItemsPanelTemplate>
             <WrapPanel/>
@@ -106,5 +106,4 @@
       </ListBox>
     </GroupBox>
   </Grid>
-
 </UserControl>

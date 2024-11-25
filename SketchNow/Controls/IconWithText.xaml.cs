@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 using MaterialDesignThemes.Wpf;
 
@@ -28,7 +16,7 @@ namespace SketchNow.Controls
         }
 
         public static readonly DependencyProperty KindProperty =
-            DependencyProperty.Register("Kind", typeof(PackIconKind), typeof(IconWithText), new PropertyMetadata(PackIconKind.None));
+            DependencyProperty.Register(nameof(Kind), typeof(PackIconKind), typeof(IconWithText), new PropertyMetadata(PackIconKind.None));
 
         public PackIconKind Kind
         {
@@ -37,7 +25,7 @@ namespace SketchNow.Controls
         }
 
         public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register("Text", typeof(string), typeof(IconWithText), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register(nameof(Text), typeof(string), typeof(IconWithText), new PropertyMetadata(string.Empty));
 
         public string Text
         {

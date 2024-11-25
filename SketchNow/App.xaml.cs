@@ -14,12 +14,7 @@ using SketchNow.Views;
 using System.Windows;
 using System.Windows.Threading;
 
-using Microsoft.VisualBasic;
-
 using SingleInstanceCore;
-
-using Velopack;
-using Velopack.Sources;
 
 namespace SketchNow;
 
@@ -28,7 +23,7 @@ namespace SketchNow;
 /// </summary>
 public partial class App : Application , ISingleInstance
 {
-#if !DEBUG
+#if DEBUG
     public App()
     {
         this.Startup += Application_Startup;
@@ -110,37 +105,9 @@ public partial class App : Application , ISingleInstance
     [STAThread]
     private static void Main(string[] args)
     {
-#if !DEBUG
-        VelopackApp.Build().Run();
-        UpdateMyApp().GetAwaiter().GetResult();
-#endif
         MainAsync(args).GetAwaiter().GetResult();
     }
-#if !DEBUG
-    private static async Task UpdateMyApp()
-    {
-        try
-        {
-            var mgr = new UpdateManager(new GithubSource("https://github.com/SketchNow/SketchNow.WPF", null, false));
 
-            // check for new version
-            var newVersion = await mgr.CheckForUpdatesAsync();
-            if (newVersion == null)
-                return; // no update available
-
-            // download new version
-            await mgr.DownloadUpdatesAsync(newVersion);
-
-            // install new version and restart app
-            mgr.ApplyUpdatesAndRestart(newVersion);
-        }
-        catch (Exception e)
-        {
-            MessageBox.Show("Updated failed: " + e.Message + Environment.NewLine + e.StackTrace, "Update Failed",
-                MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-    }
-#endif
     private static async Task MainAsync(string[] args)
     {
         using IHost host = CreateHostBuilder(args).Build();

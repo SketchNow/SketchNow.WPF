@@ -2,9 +2,9 @@ using System.Windows.Controls;
 
 namespace SketchNow.Views
 {
-    public partial class SettingsView : UserControl
+    public partial class PageNavigationView : UserControl
     {
-        public SettingsView()
+        public PageNavigationView()
         {
             InitializeComponent();
         }
