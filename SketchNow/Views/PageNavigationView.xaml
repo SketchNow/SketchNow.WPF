@@ -19,12 +19,12 @@
               Visibility="{Binding IsMultiPageMode, Converter={StaticResource BooleanToVisibilityConverter}}">
     <Button Height="48"
             Command="{Binding CanvasPages.PreviousCommand}"
-            Style="{StaticResource MaterialDesignFlatButton}"
-            Content="{materialDesign:PackIcon Kind=ArrowLeft}" />
+            Content="{materialDesign:PackIcon Kind=ArrowLeft}"
+            Style="{StaticResource MaterialDesignFlatButton}" />
     <Button Height="48"
             Command="{Binding CanvasPages.NextCommand}"
-            Style="{StaticResource MaterialDesignFlatButton}"
-            Content="{materialDesign:PackIcon Kind=ArrowRight}" />
+            Content="{materialDesign:PackIcon Kind=ArrowRight}"
+            Style="{StaticResource MaterialDesignFlatButton}" />
     <Button Width="200"
             Height="48"
             Style="{StaticResource MaterialDesignFlatButton}">
@@ -32,7 +32,7 @@
     </Button>
     <Button Height="48"
             Command="{Binding CanvasPages.AddPageCommand}"
-            Style="{StaticResource MaterialDesignFlatButton}"
-            Content="{materialDesign:PackIcon Kind=Plus}" />
+            Content="{materialDesign:PackIcon Kind=Plus}"
+            Style="{StaticResource MaterialDesignFlatButton}" />
   </StackPanel>
 </UserControl>
