@@ -6,7 +6,7 @@ using MaterialDesignThemes.Wpf;
 namespace SketchNow.Controls
 {
     /// <summary>
-    /// IconWithText.xaml 的交互逻辑
+    /// Interaction logic for IconWithText.xaml
     /// </summary>
     public partial class IconWithText : UserControl
     {
