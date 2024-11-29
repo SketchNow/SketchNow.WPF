@@ -44,6 +44,7 @@
     <PackageReference Include="SingleInstanceCore" />
     <PackageReference Include="System.Text.Json" />
     <PackageReference Include="ValueConverters" />
+    <PackageReference Include="Velopack" />
     <PackageReference Include="WPF.JoshSmith.Controls.DragCanvas" />
   </ItemGroup>
 
