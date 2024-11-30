@@ -24,9 +24,9 @@ namespace SketchNow;
 /// <summary>
 /// Interaction logic for App.xaml
 /// </summary>
-public partial class App : Application , ISingleInstance
+public partial class App : Application, ISingleInstance
 {
-#if DEBUG
+#if !DEBUG
     public App()
     {
         this.Startup += Application_Startup;
@@ -108,7 +108,9 @@ public partial class App : Application , ISingleInstance
     [STAThread]
     private static void Main(string[] args)
     {
+#if !DEBUG
         VelopackApp.Build().Run();
+#endif
         MainAsync(args).GetAwaiter().GetResult();
     }
 
@@ -125,6 +127,7 @@ public partial class App : Application , ISingleInstance
 
         await host.StopAsync().ConfigureAwait(true);
     }
+#if !DEBUG
     private static async Task UpdateMyApp()
     {
         var mgr = new UpdateManager(new GithubSource(@"https://github.com/SketchNow/SketchNow.WPF", null, false));
@@ -140,7 +143,7 @@ public partial class App : Application , ISingleInstance
         // install new version and restart app
         mgr.ApplyUpdatesAndRestart(newVersion);
     }
-
+#endif
     public static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder(args)
             .ConfigureAppConfiguration((hostBuilderContext, configurationBuilder)
@@ -165,6 +168,6 @@ public partial class App : Application , ISingleInstance
 
     public void OnInstanceInvoked(string[] args)
     {
-        
+
     }
 }
