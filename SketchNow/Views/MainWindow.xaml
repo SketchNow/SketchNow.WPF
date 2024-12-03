@@ -116,5 +116,9 @@
     </materialDesign:DialogHost>
     <views:PageNavigationView />
     <views:ToolBarView />
+    <materialDesign:Snackbar HorizontalAlignment="Center"
+                             VerticalAlignment="Bottom"
+                             MessageQueue="{Binding MessageQueue}" />
+
   </Grid>
 </Window>
