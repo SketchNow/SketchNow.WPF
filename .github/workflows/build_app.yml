@@ -33,7 +33,7 @@ jobs:
 
       - name: dotnet test
         run: dotnet test --configuration Release --no-build --collect:"XPlat Code Coverage" --results-directory ${{github.workspace}}/.build/coverage
-        
+
       - name: ReportGenerator
         uses: danielpalme/ReportGenerator-GitHub-Action@5.4.1
         with:
@@ -53,17 +53,36 @@ jobs:
           name: CodeCoverage
           path: ${{github.workspace}}/.build/coveragereport/
           if-no-files-found: error
-        
+
       - name: dotnet publish
         if: ${{ github.event_name != 'pull_request' }}
         run: dotnet publish --configuration Release --no-build -p:Version="${{ env.version }}" -p:PublishDir=${{github.workspace}}/.build/publish
 
+      - name: Build Velopack packages
+        if: ${{ github.event_name != 'pull_request' }}
+        run: dotnet tool update -g vpk && vpk pack -u SketchNow -v ${{ env.version }} -p ${{github.workspace}}/.build/publish -e SketchNow.exe -o ${{github.workspace}}/.build/release
+        
       - name: Upload artifact for deployment job
         if: ${{ github.event_name != 'pull_request' }}
         uses: actions/upload-artifact@v4
         with:
           name: app
           path: ${{github.workspace}}/.build/publish
+
+      - name: Upload artifact for deployment job
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: Portable
+          path: ${{github.workspace}}/.build/release/SketchNow-win-Portable.zip
+
+      - name: Upload artifact for deployment job
+        if: ${{ github.event_name != 'pull_request' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: Installer
+          path: ${{github.workspace}}/.build/release/SketchNow-win-Setup.exe
+          
 
   # This will automatically mark PRs from dependabot with auto merge.
   # This allows them to automatically complete if they pass the rest of the CI
