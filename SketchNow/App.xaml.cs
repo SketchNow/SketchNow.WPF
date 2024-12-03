@@ -55,7 +55,7 @@ public partial class App : Application, ISingleInstance
 
     static void Application_Exit(object sender, ExitEventArgs e)
     {
-        //Do not forget to cleanup
+        //Do not forget to clean up
         SingleInstance.Cleanup();
     }
 
@@ -117,6 +117,8 @@ public partial class App : Application, ISingleInstance
     private static async Task MainAsync(string[] args)
     {
         using IHost host = CreateHostBuilder(args).Build();
+        //Use ConfigureAwait(true)
+        //to suppress the CA2007 warning https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca2007
         await host.StartAsync().ConfigureAwait(true);
 
         App app = new();
@@ -124,7 +126,8 @@ public partial class App : Application, ISingleInstance
         app.MainWindow = host.Services.GetRequiredService<MainWindow>();
         app.MainWindow.Visibility = Visibility.Visible;
         app.Run();
-
+        //Use ConfigureAwait(true)
+        //to suppress the CA2007 warning https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca2007
         await host.StopAsync().ConfigureAwait(true);
     }
 #if !DEBUG
@@ -168,6 +171,5 @@ public partial class App : Application, ISingleInstance
 
     public void OnInstanceInvoked(string[] args)
     {
-
     }
 }
