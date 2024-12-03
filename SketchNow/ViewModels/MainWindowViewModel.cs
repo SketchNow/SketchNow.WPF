@@ -15,11 +15,22 @@ namespace SketchNow.ViewModels;
 
 public partial class MainWindowViewModel : ObservableObject
 {
+    public MainWindowViewModel(ISnackbarMessageQueue messageQueue)
+    {
+        CurrentDrawingAttributes.AttributeChanged += (_, _) =>
+        {
+            Settings.Default.FitToCurve = CurrentDrawingAttributes.FitToCurve;
+            Settings.Default.IgnorePressure = CurrentDrawingAttributes.IgnorePressure;
+            Settings.Default.Save();
+        };
+    }
+
     private readonly CustomCursors _customCursors = new();
     [ObservableProperty] private Cursor _inkCanvasCursor = Cursors.Arrow;
     [ObservableProperty] private CanvasPages _canvasPages = new();
     private int _previousPageIndex;
-    [ObservableProperty] private ObservableCollection<Color> _colorList =
+    [ObservableProperty]
+    private ObservableCollection<Color> _colorList =
     [
         Color.FromRgb(28, 27, 31),
         Colors.White,
@@ -134,7 +145,7 @@ public partial class MainWindowViewModel : ObservableObject
                 break;
             case (int)WhiteBoardMode.MultiPages:
                 if (CanvasPages.SelectedIndex == 0)
-                    if (CanvasPages.Length == 1)
+                    if (CanvasPages.Pages.Count == 1)
                         CanvasPages.AddPageCommand.Execute(null);
                     else
                         CanvasPages.SelectedIndex = _previousPageIndex;
@@ -149,13 +160,4 @@ public partial class MainWindowViewModel : ObservableObject
     [RelayCommand]
     private void ToggleMultiPageMode(bool value) => SelectedCanvasModeIndex =
         value ? (int)WhiteBoardMode.MultiPages : (int)WhiteBoardMode.Screen;
-    public MainWindowViewModel()
-    {
-        CurrentDrawingAttributes.AttributeChanged += (_, _) =>
-        {
-            Settings.Default.FitToCurve = CurrentDrawingAttributes.FitToCurve;
-            Settings.Default.IgnorePressure = CurrentDrawingAttributes.IgnorePressure;
-            Settings.Default.Save();
-        };
-    }
 }

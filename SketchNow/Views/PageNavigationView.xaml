@@ -28,7 +28,7 @@
     <Button Width="200"
             Height="48"
             Style="{StaticResource MaterialDesignFlatButton}">
-      <TextBlock VerticalAlignment="Center"><Run Text="At " /><Run Text=" " /><Run Text="{Binding CanvasPages.SelectedIndex, Mode=OneWay}" /><Run Text=" " /><Run Text="of " /><Run Text=" " /><Run Text="{Binding CanvasPages.Length, ConverterParameter=-1, Converter={StaticResource MathAddConverter}, Mode=OneWay}" /><Run Text=" " /><Run Text=" Pages" /></TextBlock>
+      <TextBlock VerticalAlignment="Center"><Run Text="At " /><Run Text=" " /><Run Text="{Binding CanvasPages.SelectedIndex, Mode=OneWay}" /><Run Text=" " /><Run Text="of " /><Run Text=" " /><Run Text="{Binding CanvasPages.Pages.Count, ConverterParameter=-1, Converter={StaticResource MathAddConverter}, Mode=OneWay}" /><Run Text=" " /><Run Text=" Pages" /></TextBlock>
     </Button>
     <Button Height="48"
             Command="{Binding CanvasPages.AddPageCommand}"

@@ -41,13 +41,13 @@ public partial class MainWindowViewModelTests
 
         MainWindowViewModel viewModel = mocker.CreateInstance<MainWindowViewModel>();
 
-        int initialCount = viewModel.CanvasPages.Length;
+        int initialCount = viewModel.CanvasPages.Pages.Count;
 
         //Act
         viewModel.CanvasPages.AddPageCommand.Execute(null);
 
         //Assert
-        Assert.Equal(initialCount + 1, viewModel.CanvasPages.Length);
+        Assert.Equal(initialCount + 1, viewModel.CanvasPages.Pages.Count);
     }
     
     
