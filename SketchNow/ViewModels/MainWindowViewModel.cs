@@ -17,8 +17,7 @@ namespace SketchNow.ViewModels;
 
 public partial class MainWindowViewModel : ObservableObject
 {
-    [ObservableProperty]
-    private ISnackbarMessageQueue _messageQueue;
+    [ObservableProperty] private ISnackbarMessageQueue _messageQueue;
 
     public MainWindowViewModel(ISnackbarMessageQueue messageQueue)
     {
@@ -37,8 +36,7 @@ public partial class MainWindowViewModel : ObservableObject
     [ObservableProperty] private Cursor _inkCanvasCursor = Cursors.Arrow;
     [ObservableProperty] private CanvasPages _canvasPages = new();
     private int _previousPageIndex;
-    [ObservableProperty]
-    private ObservableCollection<Color> _colorList =
+    [ObservableProperty] private ObservableCollection<Color> _colorList =
     [
         Color.FromRgb(28, 27, 31),
         Colors.White,
@@ -50,11 +48,15 @@ public partial class MainWindowViewModel : ObservableObject
         Color.FromRgb(234, 43, 180)
     ];
     [ObservableProperty] private Color _selectedColor = Colors.Black;
+
+    partial void OnSelectedColorChanged(Color value) => CurrentDrawingAttributes.Color = value;
     [ObservableProperty] private ObservableCollection<double> _strokeSizeList = [5, 7, 9, 11, 13, 20];
     [ObservableProperty] private double _selectedStrokeSize;
 
-    [ObservableProperty]
-    private DrawingAttributes _currentDrawingAttributes = new()
+    partial void OnSelectedStrokeSizeChanged(double value) =>
+                CurrentDrawingAttributes.Width = CurrentDrawingAttributes.Height = value;
+
+    [ObservableProperty] private DrawingAttributes _currentDrawingAttributes = new()
     {
         Color = Colors.Black,
         IgnorePressure = Settings.Default.IgnorePressure,
@@ -73,6 +75,13 @@ public partial class MainWindowViewModel : ObservableObject
     [ObservableProperty] private int _selectedCanvasModeIndex = (int)WhiteBoardMode.Screen;
     [ObservableProperty] private bool _isMultiPageMode;
     [ObservableProperty] private bool _useEraseByStroke = Settings.Default.EraseByStroke;
+
+    partial void OnUseEraseByStrokeChanged(bool value)
+    {
+        Settings.Default.EraseByStroke = value;
+        Settings.Default.Save();
+        OnSelectedToolIndexChanged(SelectedToolIndex);
+    }
     [ObservableProperty] private ObservableCollection<Brush> _backGroundBrushes =
     [
         new SolidColorBrush(Colors.White),
@@ -104,15 +113,6 @@ public partial class MainWindowViewModel : ObservableObject
     ];
     [ObservableProperty] private Brush _selectedBrush = new SolidColorBrush(Colors.White);
     [ObservableProperty] private Brush _windowBackgroundBrush = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
-    partial void OnSelectedStrokeSizeChanged(double value) =>
-        CurrentDrawingAttributes.Width = CurrentDrawingAttributes.Height = value;
-    partial void OnSelectedColorChanged(Color value) => CurrentDrawingAttributes.Color = value;
-    partial void OnUseEraseByStrokeChanged(bool value)
-    {
-        Settings.Default.EraseByStroke = value;
-        Settings.Default.Save();
-        OnSelectedToolIndexChanged(SelectedToolIndex);
-    }
     partial void OnSelectedToolIndexChanged(int value)
     {
         SelectedEditingMode = value switch
