@@ -8,13 +8,13 @@
              xmlns:vms="clr-namespace:SketchNow.ViewModels"
              d:DataContext="{d:DesignInstance IsDesignTimeCreatable=False,
                                               Type={x:Type vms:MainWindowViewModel}}"
-             d:DesignHeight="300"
+             d:DesignHeight="500"
              d:DesignWidth="800"
              mc:Ignorable="d">
   <Grid>
     <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="Auto"></ColumnDefinition>
-      <ColumnDefinition Width="*"></ColumnDefinition>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
     </Grid.ColumnDefinitions>
     <StackPanel Grid.Column="0">
       <GroupBox Margin="5" Header="General">
@@ -65,42 +65,32 @@
           </ToggleButton>
         </Grid>
       </GroupBox>
-      <Grid Margin="12">
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="Auto" />
-          <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <materialDesign:PackIcon Grid.Column="0"
-                                 Width="42"
-                                 Height="42"
-                                 Margin="0,0,8,0"
-                                 Kind="ScaleBalance" />
-        <Grid Grid.Column="1">
-          <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-          </Grid.RowDefinitions>
-          <TextBlock>
-            <Hyperlink IsEnabled="False" Style="{StaticResource MaterialDesignSubtitle1Hyperlink}">
-              SketchNow is licensed under the
-            </Hyperlink>
-          </TextBlock>
-          <TextBlock Grid.Row="1"
-                     Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                     Text="MIT License" />
-        </Grid>
-      </Grid>
+      <StackPanel Margin="12">
+        <TextBlock>
+          <Hyperlink IsEnabled="False" Style="{StaticResource MaterialDesignSubtitle1Hyperlink}">
+            SketchNow is licensed under the
+          </Hyperlink>
+        </TextBlock>
+        <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="MIT License" />
+        <TextBlock Style="{StaticResource MaterialDesignButtonTextBlock}">
+          <Hyperlink RequestNavigate="Hyperlink_OnRequestNavigate" NavigateUri="https://github.com/SketchNow/SketchNow.WPF">Visit our Github Repository</Hyperlink>
+        </TextBlock>
+      </StackPanel>
     </StackPanel>
-    <GroupBox Grid.Column="1" Margin="5" Header="Background">
+    <GroupBox Grid.Column="1"
+              Margin="5"
+              Header="Background">
       <ListBox ItemsSource="{Binding BackGroundBrushes}" SelectedItem="{Binding SelectedBrush}">
         <ListBox.ItemsPanel>
           <ItemsPanelTemplate>
-            <WrapPanel/>
+            <WrapPanel />
           </ItemsPanelTemplate>
         </ListBox.ItemsPanel>
         <ListBox.ItemTemplate>
           <DataTemplate>
-            <Border Height="50" Width="50" Background="{Binding}"/>
+            <Border Width="50"
+                    Height="50"
+                    Background="{Binding}" />
           </DataTemplate>
         </ListBox.ItemTemplate>
       </ListBox>
