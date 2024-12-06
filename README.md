@@ -5,8 +5,22 @@
 [![Issues](https://img.shields.io/github/issues/SketchNow/SketchNow.WPF.svg)](https://github.com/SketchNow/SktechNow.WPF/issues)
 
 An application brings the ability to draw on your screen(anywhere)
+
 > [!CAUTION]
 > Still developing. To avoid potential risks, please don't install in the production environment
+
+### Feature
+
+- Realtime drawing on your screen
+- High performance and welly designed UI/UX
+- Stable and reliable
+- Never share your data
+- Supports pressure sensitive devices
+- Low cost of system resources
+
+### Upcoming
+
+See projects [here](https://github.com/orgs/SketchNow/projects)
 
 ### Install
 
@@ -14,7 +28,13 @@ Go [release](https://github.com/SketchNow/SketchNow.WPF/releases), and choose th
 
 If you want to have a taste of the latest commited code,
 you can go [actions](https://github.com/SketchNow/SketchNow.WPF/actions),
-and download the `app` of all `artifacts`  
+and download the `app` of all `artifacts`
+
+### Privacy
+| Permission    | Detail                                                                                                |
+|---------------|-------------------------------------------------------------------------------------------------------|
+| Data Storage  | Installer version `%LocalAppData%\SketchNow` <br/> Portable version Where the main program is located |
+| Network Usage | **GET** `github.com` the version information to download and upgrade your application                 |
 
 ### Contribute
 1. Follow the `.editorconfig`
