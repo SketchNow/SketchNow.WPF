@@ -1,6 +1,6 @@
-# SketchNow
+![Banner](docs/banner.png)
 
-![sda](docs/banner.png)
+# SketchNow
 
 [![Issues](https://img.shields.io/github/issues/SketchNow/SketchNow.WPF.svg)](https://github.com/SketchNow/SktechNow.WPF/issues)
 
@@ -31,7 +31,7 @@ and download the `app` of all `artifacts`
 We are using [Velopack](https://github.com/velopack/velopack) to generate release
 
 Before you use the following commands,
-please ensure that you have read [this](https://docs.velopack.io/getting-started/csharp)
+please confirm that you've read [this](https://docs.velopack.io/getting-started/csharp)
 ```shell
 dotnet publish -c Release --self-contained -r win-x64 -o .\publish
 ```
