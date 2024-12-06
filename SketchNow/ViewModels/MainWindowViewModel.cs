@@ -22,7 +22,7 @@ public partial class MainWindowViewModel : ObservableObject
     public MainWindowViewModel(ISnackbarMessageQueue messageQueue)
     {
         ArgumentNullException.ThrowIfNull(messageQueue);
-        _messageQueue = messageQueue;
+        MessageQueue = messageQueue;
 
         CurrentDrawingAttributes.AttributeChanged += (_, _) =>
         {
