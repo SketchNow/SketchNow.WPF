@@ -8,8 +8,6 @@ An application brings the ability to draw on your screen(anywhere)
 > [!CAUTION]
 > Still developing. To avoid potential risks, please don't install in the production environment
 
-![Screenshot of you are using a desktop application with SketchNow](screenshot.png)
-
 ### Install
 
 Go [release](https://github.com/SketchNow/SketchNow.WPF/releases), and choose the version you want.
@@ -52,3 +50,5 @@ vpk pack -u SketchNow -v 1.0.0 -p .\publish -e SketchNow.exe
 - System.Text.Json
 - Microsoft.Extensions.Hosting
 - Microsoft.Extensions.DependencyInjection
+
+![Screenshot of you are using a desktop application with SketchNow](docs/screenshot.png)
