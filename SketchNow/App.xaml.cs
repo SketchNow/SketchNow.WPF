@@ -26,7 +26,70 @@ namespace SketchNow;
 /// </summary>
 public partial class App : Application, ISingleInstance
 {
+    [STAThread]
+    private static void Main(string[] args)
+    {
 #if !DEBUG
+        VelopackApp.Build().Run();
+#endif
+        MainAsync(args).GetAwaiter().GetResult();
+    }
+
+    private static async Task MainAsync(string[] args)
+    {
+        using IHost host = CreateHostBuilder(args).Build();
+        //Use ConfigureAwait(true)
+        //to suppress the CA2007 warning https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca2007
+        await host.StartAsync().ConfigureAwait(true);
+
+        App app = new();
+        app.InitializeComponent();
+        app.MainWindow = host.Services.GetRequiredService<MainWindow>();
+        app.MainWindow.Visibility = Visibility.Visible;
+        app.Run();
+        //Use ConfigureAwait(true)
+        //to suppress the CA2007 warning https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca2007
+        await host.StopAsync().ConfigureAwait(true);
+    }
+    public static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+            .ConfigureAppConfiguration((hostBuilderContext, configurationBuilder)
+                => configurationBuilder.AddUserSecrets(typeof(App).Assembly))
+            .ConfigureServices((hostContext, services) =>
+            {
+                services.AddSingleton<MainWindow>();
+                services.AddSingleton<MainWindowViewModel>();
+
+                services.AddSingleton<WeakReferenceMessenger>();
+                services.AddSingleton<IMessenger, WeakReferenceMessenger>(provider =>
+                    provider.GetRequiredService<WeakReferenceMessenger>());
+
+                services.AddSingleton(_ => Current.Dispatcher);
+
+                services.AddTransient<ISnackbarMessageQueue>(provider =>
+                {
+                    Dispatcher dispatcher = provider.GetRequiredService<Dispatcher>();
+                    return new SnackbarMessageQueue(TimeSpan.FromSeconds(3.0), dispatcher);
+                });
+            });
+
+    public void OnInstanceInvoked(string[] args) { }
+#if !DEBUG
+    private static async Task UpdateMyApp()
+    {
+        var mgr = new UpdateManager(new GithubSource(@"https://github.com/SketchNow/SketchNow.WPF", null, false));
+
+        // check for new version
+        var newVersion = await mgr.CheckForUpdatesAsync();
+        if (newVersion == null)
+            return; // no update available
+
+        // download new version
+        await mgr.DownloadUpdatesAsync(newVersion);
+
+        // install new version and restart app
+        mgr.ApplyUpdatesAndRestart(newVersion);
+    }
     public App()
     {
         this.Startup += Application_Startup;
@@ -103,73 +166,5 @@ public partial class App : Application, ISingleInstance
             "Unobserved Task", MessageBoxButton.OK, MessageBoxImage.Error);
         e.SetObserved();
     }
-
 #endif
-    [STAThread]
-    private static void Main(string[] args)
-    {
-#if !DEBUG
-        VelopackApp.Build().Run();
-#endif
-        MainAsync(args).GetAwaiter().GetResult();
-    }
-
-    private static async Task MainAsync(string[] args)
-    {
-        using IHost host = CreateHostBuilder(args).Build();
-        //Use ConfigureAwait(true)
-        //to suppress the CA2007 warning https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca2007
-        await host.StartAsync().ConfigureAwait(true);
-
-        App app = new();
-        app.InitializeComponent();
-        app.MainWindow = host.Services.GetRequiredService<MainWindow>();
-        app.MainWindow.Visibility = Visibility.Visible;
-        app.Run();
-        //Use ConfigureAwait(true)
-        //to suppress the CA2007 warning https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca2007
-        await host.StopAsync().ConfigureAwait(true);
-    }
-#if !DEBUG
-    private static async Task UpdateMyApp()
-    {
-        var mgr = new UpdateManager(new GithubSource(@"https://github.com/SketchNow/SketchNow.WPF", null, false));
-
-        // check for new version
-        var newVersion = await mgr.CheckForUpdatesAsync();
-        if (newVersion == null)
-            return; // no update available
-
-        // download new version
-        await mgr.DownloadUpdatesAsync(newVersion);
-
-        // install new version and restart app
-        mgr.ApplyUpdatesAndRestart(newVersion);
-    }
-#endif
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
-        Host.CreateDefaultBuilder(args)
-            .ConfigureAppConfiguration((hostBuilderContext, configurationBuilder)
-                => configurationBuilder.AddUserSecrets(typeof(App).Assembly))
-            .ConfigureServices((hostContext, services) =>
-            {
-                services.AddSingleton<MainWindow>();
-                services.AddSingleton<MainWindowViewModel>();
-
-                services.AddSingleton<WeakReferenceMessenger>();
-                services.AddSingleton<IMessenger, WeakReferenceMessenger>(provider =>
-                    provider.GetRequiredService<WeakReferenceMessenger>());
-
-                services.AddSingleton(_ => Current.Dispatcher);
-
-                services.AddTransient<ISnackbarMessageQueue>(provider =>
-                {
-                    Dispatcher dispatcher = provider.GetRequiredService<Dispatcher>();
-                    return new SnackbarMessageQueue(TimeSpan.FromSeconds(3.0), dispatcher);
-                });
-            });
-
-    public void OnInstanceInvoked(string[] args)
-    {
-    }
 }
