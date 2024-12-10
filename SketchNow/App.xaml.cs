@@ -75,21 +75,6 @@ public partial class App : Application, ISingleInstance
 
     public void OnInstanceInvoked(string[] args) { }
 #if !DEBUG
-    private static async Task UpdateMyApp()
-    {
-        var mgr = new UpdateManager(new GithubSource(@"https://github.com/SketchNow/SketchNow.WPF", null, false));
-
-        // check for new version
-        var newVersion = await mgr.CheckForUpdatesAsync();
-        if (newVersion == null)
-            return; // no update available
-
-        // download new version
-        await mgr.DownloadUpdatesAsync(newVersion);
-
-        // install new version and restart app
-        mgr.ApplyUpdatesAndRestart(newVersion);
-    }
     public App()
     {
         this.Startup += Application_Startup;

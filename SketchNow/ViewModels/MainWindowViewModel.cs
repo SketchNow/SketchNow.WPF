@@ -13,6 +13,9 @@ using MaterialDesignThemes.Wpf;
 using SketchNow.Models;
 using SketchNow.Properties;
 
+using Velopack;
+using Velopack.Sources;
+
 namespace SketchNow.ViewModels;
 
 public partial class MainWindowViewModel : ObservableObject
@@ -30,12 +33,14 @@ public partial class MainWindowViewModel : ObservableObject
             Settings.Default.IgnorePressure = CurrentDrawingAttributes.IgnorePressure;
             Settings.Default.Save();
         };
+        
     }
 
     private readonly CustomCursors _customCursors = new();
     [ObservableProperty] private Cursor _inkCanvasCursor = Cursors.Arrow;
     [ObservableProperty] private CanvasPages _canvasPages = new();
     private int _previousPageIndex;
+
     [ObservableProperty] private ObservableCollection<Color> _colorList =
     [
         Color.FromRgb(28, 27, 31),
@@ -47,6 +52,7 @@ public partial class MainWindowViewModel : ObservableObject
         Color.FromRgb(255, 219, 29),
         Color.FromRgb(234, 43, 180)
     ];
+
     [ObservableProperty] private Color _selectedColor = Colors.Black;
 
     partial void OnSelectedColorChanged(Color value) => CurrentDrawingAttributes.Color = value;
@@ -54,7 +60,7 @@ public partial class MainWindowViewModel : ObservableObject
     [ObservableProperty] private double _selectedStrokeSize;
 
     partial void OnSelectedStrokeSizeChanged(double value) =>
-                CurrentDrawingAttributes.Width = CurrentDrawingAttributes.Height = value;
+        CurrentDrawingAttributes.Width = CurrentDrawingAttributes.Height = value;
 
     [ObservableProperty] private DrawingAttributes _currentDrawingAttributes = new()
     {
@@ -65,12 +71,15 @@ public partial class MainWindowViewModel : ObservableObject
         Width = 5,
         IsHighlighter = false
     };
+
     [ObservableProperty] private InkCanvasEditingMode _selectedEditingMode = InkCanvasEditingMode.None;
+
     public enum WhiteBoardMode
     {
         Screen = 0,
         MultiPages = 1
     }
+
     [ObservableProperty] private int _selectedToolIndex;
     [ObservableProperty] private int _selectedCanvasModeIndex = (int)WhiteBoardMode.Screen;
     [ObservableProperty] private bool _isMultiPageMode;
@@ -82,6 +91,7 @@ public partial class MainWindowViewModel : ObservableObject
         Settings.Default.Save();
         OnSelectedToolIndexChanged(SelectedToolIndex);
     }
+
     [ObservableProperty] private ObservableCollection<Brush> _backGroundBrushes =
     [
         new SolidColorBrush(Colors.White),
@@ -90,7 +100,7 @@ public partial class MainWindowViewModel : ObservableObject
         new SolidColorBrush(Color.FromRgb(25, 25, 25)),
         new DrawingBrush
         {
-            Viewport = new Rect(0, 0, 50, 50),
+            Viewport = new Rect(0, 0, 80, 80),
             ViewportUnits = BrushMappingMode.Absolute,
             TileMode = TileMode.Tile,
             Drawing = new DrawingGroup
@@ -99,20 +109,21 @@ public partial class MainWindowViewModel : ObservableObject
                 {
                     new GeometryDrawing
                     {
-                        Brush = Brushes.White,
-                        Geometry = new RectangleGeometry(new Rect(0, 0, 1, 1))
+                        Brush = Brushes.White, Geometry = new RectangleGeometry(new Rect(0, 0, 1, 1))
                     },
                     new GeometryDrawing
                     {
-                        Brush = new SolidColorBrush(Color.FromArgb(50,255,244,103)),
+                        Brush = new SolidColorBrush(Color.FromArgb(76, 0, 0, 0)),
                         Geometry = Geometry.Parse("M 0,0 L 0,1 0.1,1 0.1,0.1 1,0.1 1,0 Z")
                     }
                 }
             }
         }
     ];
+
     [ObservableProperty] private Brush _selectedBrush = new SolidColorBrush(Colors.White);
     [ObservableProperty] private Brush _windowBackgroundBrush = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
+
     partial void OnSelectedToolIndexChanged(int value)
     {
         SelectedEditingMode = value switch
@@ -141,6 +152,7 @@ public partial class MainWindowViewModel : ObservableObject
 
     [RelayCommand]
     private void ToggleEditMode(int value) => SelectedToolIndex = value;
+
     partial void OnSelectedCanvasModeIndexChanged(int value)
     {
         IsMultiPageMode = value == (int)WhiteBoardMode.MultiPages;
@@ -160,12 +172,61 @@ public partial class MainWindowViewModel : ObservableObject
                 break;
         }
     }
+
     [RelayCommand]
     private static void Close()
     {
         Application.Current.Shutdown();
     }
+
     [RelayCommand]
     private void ToggleMultiPageMode(bool value) => SelectedCanvasModeIndex =
         value ? (int)WhiteBoardMode.MultiPages : (int)WhiteBoardMode.Screen;
+
+
+    
+    [ObservableProperty] private Progress _progress = new();
+    UpdateManager _mgr = new(new GithubSource(@"https://github.com/SketchNow/SketchNow.WPF", null, false));
+
+    [RelayCommand]
+    private async Task CheckForUpdates()
+    {
+        UpdateInfo? newVersion = null;
+
+        try
+        {
+            newVersion = await _mgr.CheckForUpdatesAsync();
+        }
+        catch (Exception e)
+        {
+            MessageQueue.Enqueue(e.Message);
+        }
+        if (newVersion != null)
+            MessageQueue.Enqueue($"New version found", "Install and update",
+                _ => UpdateAppCommand.ExecuteAsync(newVersion),
+                null,
+                false,
+                true,
+                TimeSpan.FromSeconds(10));
+        else
+            MessageQueue.Enqueue("Updates are not available.");
+    }
+
+    [RelayCommand]
+    private async Task UpdateApp(UpdateInfo newVersion)
+    {
+        Progress.IsVisible = true;
+        Progress.IsIndeterminate = true;
+
+        MessageQueue.Enqueue("Downloading updates. Please wait...");
+
+        await Task.Delay(5);
+
+        Progress.IsIndeterminate = false;
+
+        await _mgr.DownloadUpdatesAsync(newVersion, i => Progress.Value = i);
+        MessageQueue.Enqueue("Downloaded updates. Please wait...");
+        Progress.IsIndeterminate = true;
+        _mgr.ApplyUpdatesAndRestart(newVersion);
+    }
 }

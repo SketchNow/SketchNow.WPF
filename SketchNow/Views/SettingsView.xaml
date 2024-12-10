@@ -18,7 +18,13 @@
     </Grid.ColumnDefinitions>
     <StackPanel Grid.Column="0">
       <GroupBox Margin="5" Header="General">
-        <Button Command="{Binding CloseCommand}" Content="Exit Program" />
+        <StackPanel>
+          <Button Command="{Binding CloseCommand}" Content="Exit Program" />
+          <Button Margin="0,8,0,0"
+                  Command="{Binding CheckForUpdatesCommand}"
+                  Content="Check Updates" />
+        </StackPanel>
+
       </GroupBox>
       <GroupBox Margin="5" Header="Ink">
         <Grid VerticalAlignment="Center">
@@ -73,7 +79,7 @@
         </TextBlock>
         <TextBlock Style="{StaticResource MaterialDesignHeadline6TextBlock}" Text="MIT License" />
         <TextBlock Style="{StaticResource MaterialDesignButtonTextBlock}">
-          <Hyperlink RequestNavigate="Hyperlink_OnRequestNavigate" NavigateUri="https://github.com/SketchNow/SketchNow.WPF">Visit our Github Repository</Hyperlink>
+          <Hyperlink NavigateUri="https://github.com/SketchNow/SketchNow.WPF" RequestNavigate="Hyperlink_OnRequestNavigate">Visit our Github Repository</Hyperlink>
         </TextBlock>
       </StackPanel>
     </StackPanel>

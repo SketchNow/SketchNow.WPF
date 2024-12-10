@@ -119,6 +119,11 @@
     <materialDesign:Snackbar HorizontalAlignment="Center"
                              VerticalAlignment="Bottom"
                              MessageQueue="{Binding MessageQueue}" />
-
+    <ProgressBar Height="10"
+                 Margin="0,0,0,6"
+                 VerticalAlignment="Bottom"
+                 IsIndeterminate="{Binding Progress.IsIndeterminate}"
+                 Visibility="{Binding Progress.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+                 Value="{Binding Progress.Value}" />
   </Grid>
 </Window>
