@@ -12,6 +12,12 @@ public interface ICustomCursors
 
 public class CustomCursors : ICustomCursors
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="resourcePath"></param>
+    /// <returns></returns>
+    /// <exception cref="CursorNotFoundException"></exception>
     private static Cursor LoadCursor(string resourcePath)
     {
         var uri = new Uri($"/SketchNow;component/Resources/{resourcePath}", UriKind.Relative);
