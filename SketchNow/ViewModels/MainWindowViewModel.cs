@@ -11,6 +11,7 @@ using CommunityToolkit.Mvvm.Input;
 using MaterialDesignThemes.Wpf;
 
 using SketchNow.Models;
+using SketchNow.Models.Enums;
 using SketchNow.Properties;
 
 using Velopack;
@@ -73,15 +74,9 @@ public partial class MainWindowViewModel : ObservableObject
     };
 
     [ObservableProperty] private InkCanvasEditingMode _selectedEditingMode = InkCanvasEditingMode.None;
-
-    public enum WhiteBoardMode
-    {
-        Screen = 0,
-        MultiPages = 1
-    }
-
+    
     [ObservableProperty] private int _selectedToolIndex;
-    [ObservableProperty] private int _selectedCanvasModeIndex = (int)WhiteBoardMode.Screen;
+    [ObservableProperty] private WhiteBoardMode _selectedWhiteBoardMode = WhiteBoardMode.Screen;
     [ObservableProperty] private bool _isMultiPageMode;
     [ObservableProperty] private bool _useEraseByStroke = Settings.Default.EraseByStroke;
 
@@ -153,17 +148,17 @@ public partial class MainWindowViewModel : ObservableObject
     [RelayCommand]
     private void ToggleEditMode(int value) => SelectedToolIndex = value;
 
-    partial void OnSelectedCanvasModeIndexChanged(int value)
+    partial void OnSelectedWhiteBoardModeChanged(WhiteBoardMode value)
     {
-        IsMultiPageMode = value == (int)WhiteBoardMode.MultiPages;
+        IsMultiPageMode = value == WhiteBoardMode.MultiPages;
         switch (value)
         {
-            case (int)WhiteBoardMode.Screen:
+            case WhiteBoardMode.Screen:
                 if (CanvasPages.SelectedIndex != 0)
                     _previousPageIndex = CanvasPages.SelectedIndex;
                 CanvasPages.SelectedIndex = 0;
                 break;
-            case (int)WhiteBoardMode.MultiPages:
+            case WhiteBoardMode.MultiPages:
                 if (CanvasPages.SelectedIndex == 0)
                     if (CanvasPages.Pages.Count == 1)
                         CanvasPages.AddPageCommand.Execute(null);
@@ -180,13 +175,13 @@ public partial class MainWindowViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void ToggleMultiPageMode(bool value) => SelectedCanvasModeIndex =
-        value ? (int)WhiteBoardMode.MultiPages : (int)WhiteBoardMode.Screen;
+    private void ToggleMultiPageMode(bool value) => SelectedWhiteBoardMode =
+        value ? WhiteBoardMode.MultiPages : WhiteBoardMode.Screen;
 
 
     
     [ObservableProperty] private Progress _progress = new();
-    UpdateManager _mgr = new(new GithubSource(@"https://github.com/SketchNow/SketchNow.WPF", null, false));
+    readonly UpdateManager _mgr = new(new GithubSource(@"https://github.com/SketchNow/SketchNow.WPF", null, false));
 
     [RelayCommand]
     private async Task CheckForUpdates()

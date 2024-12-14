@@ -17,6 +17,7 @@
              mc:Ignorable="d">
   <UserControl.Resources>
     <converters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
+    <converters:EnumToIndexConverter x:Key="EnumToIndexConverter" />
   </UserControl.Resources>
   <jas:DragCanvas>
     <StackPanel Canvas.Left="{Binding (Canvas.Left), ElementName=ToolBar, ConverterParameter=81, Converter={StaticResource MathAddConverter}}"
@@ -71,7 +72,7 @@
         </ListBoxItem>
       </ListBox>
       <ListBox Margin="2"
-               SelectedIndex="{Binding SelectedCanvasModeIndex}"
+               SelectedIndex="{Binding SelectedCanvasMode, Converter={StaticResource EnumToIndexConverter}}"
                Style="{StaticResource MaterialDesignToolToggleListBox}">
         <ListBoxItem>
           <controls:IconWithText Kind="DesktopWindows"
