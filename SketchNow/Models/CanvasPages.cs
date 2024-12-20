@@ -1,8 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using System.Windows;
 using System.Windows.Ink;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -18,7 +15,8 @@ public partial class CanvasPage : ObservableObject
     /// <summary>
     /// To Notify the Not ObservableProperty <see cref="_strokes"/>
     /// </summary>
-    [ObservableProperty] [NotifyCanExecuteChangedFor(nameof(UndoCommand), nameof(RedoCommand), nameof(ClearCommand))]
+    [ObservableProperty]
+    [NotifyCanExecuteChangedFor(nameof(UndoCommand), nameof(RedoCommand), nameof(ClearCommand))]
     private int _counter;
 
     private readonly ObservableCollection<StrokeCollection> _undoStack = [];
@@ -32,11 +30,11 @@ public partial class CanvasPage : ObservableObject
         if (Counter >= 100) Counter = 0;
         else Counter++;
     }
-/// <summary>
-/// Record the changes in the <see cref="Strokes"/> property for undo/redo
-/// </summary>
-/// <param name="sender"></param>
-/// <param name="e"></param>
+    /// <summary>
+    /// Record the changes in the <see cref="Strokes"/> property for undo/redo
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void Strokes_Changed(object sender, StrokeCollectionChangedEventArgs e)
     {
         _undoStack.Add(CloneStrokeCollection(Strokes));
