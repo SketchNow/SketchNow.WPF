@@ -72,7 +72,7 @@
         </ListBoxItem>
       </ListBox>
       <ListBox Margin="2"
-               SelectedIndex="{Binding SelectedCanvasMode, Converter={StaticResource EnumToIndexConverter}}"
+               SelectedIndex="{Binding SelectedWhiteBoardMode, Converter={StaticResource EnumToIndexConverter}}"
                Style="{StaticResource MaterialDesignToolToggleListBox}">
         <ListBoxItem>
           <controls:IconWithText Kind="DesktopWindows"
