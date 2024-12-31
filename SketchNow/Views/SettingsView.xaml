@@ -5,6 +5,7 @@
              xmlns:local="clr-namespace:SketchNow.Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:properties="clr-namespace:SketchNow.Properties"
              xmlns:vms="clr-namespace:SketchNow.ViewModels"
              d:DataContext="{d:DesignInstance IsDesignTimeCreatable=False,
                                               Type={x:Type vms:MainWindowViewModel}}"
@@ -17,16 +18,16 @@
       <ColumnDefinition Width="*" />
     </Grid.ColumnDefinitions>
     <StackPanel Grid.Column="0">
-      <GroupBox Margin="5" Header="General">
+      <GroupBox Margin="5" Header="{x:Static properties:Resource.General}">
         <StackPanel>
-          <Button Command="{Binding CloseCommand}" Content="Exit Program" />
+          <Button Command="{Binding CloseCommand}" Content="{x:Static properties:Resource.ExitProgram}" />
           <Button Margin="0,8,0,0"
                   Command="{Binding CheckForUpdatesCommand}"
-                  Content="Check Updates" />
+                  Content="{x:Static properties:Resource.CheckUpdates}" />
         </StackPanel>
 
       </GroupBox>
-      <GroupBox Margin="5" Header="Ink">
+      <GroupBox Margin="5" Header="{x:Static properties:Resource.Ink}">
         <Grid VerticalAlignment="Center">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -38,7 +39,7 @@
           </Grid.RowDefinitions>
           <TextBlock Grid.Row="0"
                      Grid.Column="0"
-                     Text="Ink Smooth" />
+                     Text="{x:Static properties:Resource.InkSmooth}" />
           <ToggleButton Grid.Row="0"
                         Grid.Column="1"
                         IsChecked="{Binding CurrentDrawingAttributes.FitToCurve}"
@@ -46,7 +47,7 @@
           <TextBlock Grid.Row="1"
                      Grid.Column="0"
                      Margin="0,5,0,0"
-                     Text="Ignore Pressure" />
+                     Text="{x:Static properties:Resource.IgnorePressure}" />
           <ToggleButton Grid.Row="1"
                         Grid.Column="1"
                         Margin="0,5,0,0"
@@ -54,13 +55,13 @@
                         Style="{StaticResource MaterialDesignSwitchToggleButton}" />
         </Grid>
       </GroupBox>
-      <GroupBox Margin="5" Header="Eraser">
+      <GroupBox Margin="5" Header="{x:Static properties:Resource.Eraser}">
         <Grid VerticalAlignment="Center">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
           </Grid.ColumnDefinitions>
-          <TextBlock Grid.Column="0" Text="Erase by stroke" />
+          <TextBlock Grid.Column="0" Text="{x:Static properties:Resource.EraseByStroke}" />
           <ToggleButton Grid.Column="1"
                         IsChecked="{Binding UseEraseByStroke}"
                         Style="{StaticResource MaterialDesignSwitchToggleButton}">
@@ -85,7 +86,7 @@
     </StackPanel>
     <GroupBox Grid.Column="1"
               Margin="5"
-              Header="Background">
+              Header="{x:Static properties:Resource.Background}">
       <ListBox ItemsSource="{Binding BackGroundBrushes}" SelectedItem="{Binding SelectedBrush}">
         <ListBox.ItemsPanel>
           <ItemsPanelTemplate>

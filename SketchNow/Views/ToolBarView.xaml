@@ -8,6 +8,7 @@
              xmlns:local="clr-namespace:SketchNow.Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:properties="clr-namespace:SketchNow.Properties"
              xmlns:vms="clr-namespace:SketchNow.ViewModels"
              x:Name="TooBarControl"
              d:DataContext="{d:DesignInstance IsDesignTimeCreatable=False,
@@ -43,8 +44,8 @@
                Style="{StaticResource MaterialDesignToolToggleListBox}">
         <ListBoxItem IsEnabled="False">
           <controls:IconWithText Kind="CursorMove"
-                                 Text="Move"
-                                 ToolTip="Move the toolbar" />
+                                 Text="{x:Static properties:Resource.Move}"
+                                 ToolTip="{x:Static properties:Resource.ToolMoveDescription}" />
         </ListBoxItem>
       </ListBox>
       <ListBox Margin="2"
@@ -52,23 +53,23 @@
                Style="{StaticResource MaterialDesignToolToggleListBox}">
         <ListBoxItem>
           <controls:IconWithText Kind="CursorDefault"
-                                 Text="Cursor"
-                                 ToolTip="Cursor Mode" />
+                                 Text="{x:Static properties:Resource.Cursor}"
+                                 ToolTip="{x:Static properties:Resource.ToolCursorDescription}" />
         </ListBoxItem>
         <ListBoxItem x:Name="ToolBarPen">
           <controls:IconWithText Kind="Pen"
-                                 Text="Ink"
-                                 ToolTip="Draw on the canvas" />
+                                 Text="{x:Static properties:Resource.Ink}"
+                                 ToolTip="{x:Static properties:Resource.ToolInkDescription}" />
         </ListBoxItem>
         <ListBoxItem>
           <controls:IconWithText Kind="Eraser"
-                                 Text="Eraser"
-                                 ToolTip="Erase the stroke" />
+                                 Text="{x:Static properties:Resource.Eraser}"
+                                 ToolTip="{x:Static properties:Resource.ToolEraserDescription}" />
         </ListBoxItem>
         <ListBoxItem>
           <controls:IconWithText Kind="Select"
-                                 Text="Select"
-                                 ToolTip="Select object to move and resize" />
+                                 Text="{x:Static properties:Resource.Select}"
+                                 ToolTip="{x:Static properties:Resource.ToolSelectDescription}" />
         </ListBoxItem>
       </ListBox>
       <ListBox Margin="2"
@@ -76,13 +77,13 @@
                Style="{StaticResource MaterialDesignToolToggleListBox}">
         <ListBoxItem>
           <controls:IconWithText Kind="DesktopWindows"
-                                 Text="Screen"
-                                 ToolTip="Draw on screen" />
+                                 Text="{x:Static properties:Resource.Screen}"
+                                 ToolTip="{x:Static properties:Resource.ToolScreenDescription}" />
         </ListBoxItem>
         <ListBoxItem>
           <controls:IconWithText Kind="Presentation"
-                                 Text="Board"
-                                 ToolTip="Draw on Whiteboard" />
+                                 Text="{x:Static properties:Resource.Board}"
+                                 ToolTip="{x:Static properties:Resource.ToolBoardDescription}" />
         </ListBoxItem>
       </ListBox>
     </StackPanel>

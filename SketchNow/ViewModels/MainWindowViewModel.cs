@@ -197,14 +197,14 @@ public partial class MainWindowViewModel : ObservableObject
             MessageQueue.Enqueue(e.Message);
         }
         if (newVersion != null)
-            MessageQueue.Enqueue($"New version found", "Install and update",
+            MessageQueue.Enqueue(SketchNow.Properties.Resource.NewVersionFound, SketchNow.Properties.Resource.InstallAndUpdate,
                 _ => UpdateAppCommand.ExecuteAsync(newVersion),
                 null,
                 false,
                 true,
                 TimeSpan.FromSeconds(10));
         else
-            MessageQueue.Enqueue("Updates are not available.");
+            MessageQueue.Enqueue(SketchNow.Properties.Resource.UpdatesAreNotAvailable);
     }
 
     [RelayCommand]
@@ -213,14 +213,14 @@ public partial class MainWindowViewModel : ObservableObject
         Progress.IsVisible = true;
         Progress.IsIndeterminate = true;
 
-        MessageQueue.Enqueue("Downloading updates. Please wait...");
+        MessageQueue.Enqueue(SketchNow.Properties.Resource.DownloadingUpdatesPleaseWait);
 
         await Task.Delay(5);
 
         Progress.IsIndeterminate = false;
 
         await _mgr.DownloadUpdatesAsync(newVersion, i => Progress.Value = i);
-        MessageQueue.Enqueue("Downloaded updates. Please wait...");
+        MessageQueue.Enqueue(SketchNow.Properties.Resource.DownloadedUpdatesPleaseWait);
         Progress.IsIndeterminate = true;
         _mgr.ApplyUpdatesAndRestart(newVersion);
     }
