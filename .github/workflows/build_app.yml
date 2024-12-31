@@ -26,7 +26,7 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '9.x'
+          dotnet-version: 9.0.x
 
       - name: dotnet build
         run: dotnet build --configuration Release -p:Version="${{ env.version }}"
@@ -62,21 +62,14 @@ jobs:
         if: ${{ github.event_name != 'pull_request' }}
         run: dotnet tool update -g vpk && vpk pack -u SketchNow -v ${{ env.version }} -p ${{github.workspace}}/.build/publish -e SketchNow.exe -o ${{github.workspace}}/.build/release
         
-      - name: Upload Publish artifact for deployment job
-        if: ${{ github.event_name != 'pull_request' }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: Publish
-          path: ${{github.workspace}}/.build/publish
-
-      - name: Upload Portable artifact for deployment job
+      - name: Upload Velopack Portable artifact for deployment job
         if: ${{ github.event_name != 'pull_request' }}
         uses: actions/upload-artifact@v4
         with:
           name: Portable
           path: ${{github.workspace}}/.build/release/SketchNow-win-Portable.zip
 
-      - name: Upload Installer artifact for deployment job
+      - name: Upload Velopack Installer artifact for deployment job
         if: ${{ github.event_name != 'pull_request' }}
         uses: actions/upload-artifact@v4
         with:

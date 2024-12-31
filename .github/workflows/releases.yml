@@ -1,0 +1,49 @@
+name: Deploy to GitHub Releases
+
+on: workflow_dispatch
+jobs:
+  deploy-to-github-releases:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Get Version from Project File
+        id: get-version
+        shell: bash
+        run: echo "version=$(grep -oE '<Version>[^<]+' SketchNow/SketchNow.csproj | sed 's/<Version>//')" >> $GITHUB_OUTPUT
+  
+      - name: dotnet build
+        run: dotnet build --configuration Release -p:Version="${{ steps.get-version.outputs.version }}"
+
+      - name: dotnet test
+        run: dotnet test --configuration Release --no-build --collect:"XPlat Code Coverage" --results-directory ${{github.workspace}}/.build/coverage
+
+      - name: ReportGenerator
+        uses: danielpalme/ReportGenerator-GitHub-Action@5.4.3
+        with:
+          reports: ${{github.workspace}}/.build/coverage/**/coverage.cobertura.xml
+          targetdir: ${{github.workspace}}/.build/coveragereport/
+          reporttypes: Html;MarkdownSummaryGithub
+          title: 'Code Coverage'
+
+      - name: Upload Code Coverage Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: CodeCoverage
+          path: ${{github.workspace}}/.build/coveragereport/
+          if-no-files-found: error
+
+      - name: Publish Application
+        run: dotnet publish -r win-x64 --self-contained true --configuration Release -p:Version="${{ steps.get-version.outputs.version }}" -p:PublishDir=${{ github.workspace }}/.build/publish
+
+      - name: Create Velopack Release
+        run: |
+          dotnet tool install -g vpk
+          vpk download github --repoUrl https://github.com/SketchNow/SketchNow.WPF
+          vpk pack -u SketchNow -v ${{ steps.get-version.outputs.version }} -p ${{ github.workspace }}/.build/publish
+          vpk upload github --repoUrl https://github.com/SketchNow/SketchNow.WPF --releaseName "SketchNow ${{ steps.get-version.outputs.version }}" --tag v${{ steps.get-version.outputs.version }} --token ${{ secrets.RELEASE_TOKEN }}
