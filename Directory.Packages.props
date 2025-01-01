@@ -20,7 +20,7 @@
   -->
   <ItemGroup>
     <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-    <PackageVersion Include="coverlet.collector" Version="6.0.2">
+    <PackageVersion Include="coverlet.collector" Version="6.0.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageVersion>
@@ -33,7 +33,7 @@
     <PackageVersion Include="SingleInstanceCore" Version="2.2.2" />
     <PackageVersion Include="System.Text.Json" Version="9.0.0" />
     <PackageVersion Include="ValueConverters" Version="3.1.22" />
-    <PackageVersion Include="Velopack" Version="0.0.1023" />
+    <PackageVersion Include="Velopack" Version="0.0.1053" />
     <PackageVersion Include="WPF.JoshSmith.Controls.DragCanvas" Version="2.0.3" />
     <PackageVersion Include="xunit" Version="2.9.2" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.0.0">
