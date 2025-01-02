@@ -6,6 +6,9 @@
 
 An application brings the ability to draw on your screen(anywhere)
 
+> [!CAUTION]
+> Still developing. To avoid potential risks, please don't install in the production environment
+
 ### Feature
 
 - Realtime drawing on your screen
