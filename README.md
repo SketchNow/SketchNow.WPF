@@ -1,11 +1,15 @@
+<div align="center">
+
 ![Banner](docs/banner.png)
 
 # SketchNow
 
 [![Issues](https://img.shields.io/github/issues/SketchNow/SketchNow.WPF.svg)](https://github.com/SketchNow/SktechNow.WPF/issues)
+[![GitHub Downloads (all assets, all releases)](https://img.shields.io/github/downloads/SketchNow/SketchNow.WPF/total)](https://github.com/SketchNow/SketchNow.WPF/releases)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FSketchNow%2FSketchNow.WPF.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FSketchNow%2FSketchNow.WPF?ref=badge_shield)
 
 An application brings the ability to draw on your screen(anywhere)
+</div>
 
 ### Feature
 
