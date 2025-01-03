@@ -3,6 +3,7 @@
 # SketchNow
 
 [![Issues](https://img.shields.io/github/issues/SketchNow/SketchNow.WPF.svg)](https://github.com/SketchNow/SktechNow.WPF/issues)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FSketchNow%2FSketchNow.WPF.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FSketchNow%2FSketchNow.WPF?ref=badge_shield)
 
 An application brings the ability to draw on your screen(anywhere)
 
@@ -69,3 +70,6 @@ vpk pack -u SketchNow -v 1.0.0 -p .\publish -e SketchNow.exe
 - Microsoft.Extensions.DependencyInjection
 
 ![Screenshot of you are using a desktop application with SketchNow](docs/screenshot.png)
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FSketchNow%2FSketchNow.WPF.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2FSketchNow%2FSketchNow.WPF?ref=badge_large)
