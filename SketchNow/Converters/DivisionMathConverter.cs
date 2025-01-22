@@ -6,7 +6,7 @@ namespace SketchNow.Converters
 {
     public class DivisionMathConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null || parameter == null)
                 return null;
