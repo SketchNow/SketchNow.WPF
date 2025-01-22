@@ -9,6 +9,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:properties="clr-namespace:SketchNow.Properties"
+             xmlns:valueConverters="http://schemas.superdev.ch/valueconverters/2016/xaml"
              xmlns:vms="clr-namespace:SketchNow.ViewModels"
              x:Name="TooBarControl"
              d:DataContext="{d:DesignInstance IsDesignTimeCreatable=False,
@@ -17,8 +18,10 @@
              d:DesignWidth="800"
              mc:Ignorable="d">
   <UserControl.Resources>
+    <valueConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     <converters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
     <converters:EnumToIndexConverter x:Key="EnumToIndexConverter" />
+    <converters:DivisionMathConverter x:Key="DivisionMathConverter" />
   </UserControl.Resources>
   <jas:DragCanvas>
     <StackPanel Canvas.Left="{Binding (Canvas.Left), ElementName=ToolBar, ConverterParameter=81, Converter={StaticResource MathAddConverter}}"
@@ -91,7 +94,7 @@
                 Canvas.Top="{Binding (Canvas.Top), ConverterParameter=-36, Converter={StaticResource MathAddConverter}, ElementName=ToolBar}"
                 jas:DragCanvas.CanBeDragged="False"
                 Orientation="Horizontal"
-                Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}, ElementName=ToolBarPen}">
+                Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisibilityConverter}, ElementName=ToolBarPen}">
       <ListBox x:Name="ColorList"
                Margin="1"
                ItemsSource="{Binding ColorList}"
