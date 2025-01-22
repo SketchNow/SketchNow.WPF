@@ -5,18 +5,22 @@
              xmlns:local="clr-namespace:SketchNow.Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:valueConverters="http://schemas.superdev.ch/valueconverters/2016/xaml"
              xmlns:vms="clr-namespace:SketchNow.ViewModels"
              d:DataContext="{d:DesignInstance IsDesignTimeCreatable=False,
                                               Type={x:Type vms:MainWindowViewModel}}"
              d:DesignHeight="300"
              d:DesignWidth="800"
              mc:Ignorable="d">
+  <UserControl.Resources>
+    <valueConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+  </UserControl.Resources>
   <StackPanel Margin="5"
               HorizontalAlignment="Right"
               VerticalAlignment="Bottom"
               Background="#09000000"
               Orientation="Horizontal"
-              Visibility="{Binding IsMultiPageMode, Converter={StaticResource BooleanToVisibilityConverter}}">
+              Visibility="{Binding IsMultiPageMode, Converter={StaticResource BoolToVisibilityConverter}}">
     <Button Height="48"
             Command="{Binding CanvasPages.PreviousCommand}"
             Content="{materialDesign:PackIcon Kind=ArrowLeft}"

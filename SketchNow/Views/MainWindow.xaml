@@ -9,7 +9,7 @@
         xmlns:properties="clr-namespace:SketchNow.Properties"
         xmlns:system="clr-namespace:System;assembly=System.Runtime"
         xmlns:views="clr-namespace:SketchNow.Views"
-        xmlns:vms="clr-namespace:SketchNow.ViewModels"
+        xmlns:vms="clr-namespace:SketchNow.ViewModels" xmlns:valueConverters="http://schemas.superdev.ch/valueconverters/2016/xaml"
         Title="SketchNow"
         Width="800"
         Height="450"
@@ -76,8 +76,11 @@
   <Window.Style>
     <StaticResource ResourceKey="MaterialDesignWindow" />
   </Window.Style>
+  <Window.Resources>
+    <valueConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+  </Window.Resources>
   <Grid>
-    <Canvas Background="{Binding SelectedBrush}" Visibility="{Binding IsMultiPageMode, Converter={StaticResource BooleanToVisibilityConverter}}" />
+    <Canvas Background="{Binding SelectedBrush}" Visibility="{Binding IsMultiPageMode, Converter={StaticResource BoolToVisibilityConverter}}" />
     <controls:CustomInkCanvas Background="Transparent"
                               Cursor="{Binding InkCanvasCursor}"
                               DefaultDrawingAttributes="{Binding CurrentDrawingAttributes}"
@@ -125,7 +128,7 @@
                  Margin="0,0,0,6"
                  VerticalAlignment="Bottom"
                  IsIndeterminate="{Binding Progress.IsIndeterminate}"
-                 Visibility="{Binding Progress.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+                 Visibility="{Binding Progress.IsVisible, Converter={StaticResource BoolToVisibilityConverter}}"
                  Value="{Binding Progress.Value}" />
   </Grid>
 </Window>
