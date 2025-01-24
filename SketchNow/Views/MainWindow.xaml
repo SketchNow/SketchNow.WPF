@@ -8,8 +8,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:properties="clr-namespace:SketchNow.Properties"
         xmlns:system="clr-namespace:System;assembly=System.Runtime"
+        xmlns:valueConverters="http://schemas.superdev.ch/valueconverters/2016/xaml"
         xmlns:views="clr-namespace:SketchNow.Views"
-        xmlns:vms="clr-namespace:SketchNow.ViewModels" xmlns:valueConverters="http://schemas.superdev.ch/valueconverters/2016/xaml"
+        xmlns:vms="clr-namespace:SketchNow.ViewModels"
         Title="SketchNow"
         Width="800"
         Height="450"
@@ -79,15 +80,14 @@
   <Window.Resources>
     <valueConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
   </Window.Resources>
+  <Window.CacheMode>
+    <BitmapCache 
+            EnableClearType="True"
+            RenderAtScale="1"
+            SnapsToDevicePixels="True" />
+  </Window.CacheMode>
   <Grid>
-    <Canvas Background="{Binding SelectedBrush}" Visibility="{Binding IsMultiPageMode, Converter={StaticResource BoolToVisibilityConverter}}" />
-    <controls:CustomInkCanvas Background="Transparent"
-                              Cursor="{Binding InkCanvasCursor}"
-                              DefaultDrawingAttributes="{Binding CurrentDrawingAttributes}"
-                              EditingMode="{Binding SelectedEditingMode}"
-                              Strokes="{Binding CanvasPages.SelectedPage.Strokes}"
-                              UseCustomCursor="True" />
-    <materialDesign:DialogHost>
+    <materialDesign:DialogHost ApplyBlurBackground="True">
       <materialDesign:DialogHost.DialogContent>
         <Grid Margin="16">
           <Grid.RowDefinitions>
@@ -95,40 +95,56 @@
             <RowDefinition Height="Auto" />
           </Grid.RowDefinitions>
           <ScrollViewer Grid.Row="0"
-                        HorizontalScrollBarVisibility="Auto"
-                        VerticalScrollBarVisibility="Auto">
+                      HorizontalScrollBarVisibility="Auto"
+                      VerticalScrollBarVisibility="Auto">
             <views:SettingsView />
           </ScrollViewer>
           <StackPanel Grid.Row="1"
-                      HorizontalAlignment="Right"
-                      VerticalAlignment="Bottom"
-                      Orientation="Horizontal">
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom"
+                    Orientation="Horizontal">
             <Button Margin="0,8,8,0"
-                    Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                    Content="{x:Static properties:Resource.Close}"
-                    IsCancel="True"
-                    Style="{StaticResource MaterialDesignFlatButton}" />
+                  Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                  Content="{x:Static properties:Resource.Close}"
+                  IsCancel="True"
+                  Style="{StaticResource MaterialDesignFlatButton}" />
           </StackPanel>
         </Grid>
       </materialDesign:DialogHost.DialogContent>
-      <Button HorizontalAlignment="Left"
+      <Grid>
+        <Grid.CacheMode>
+          <BitmapCache 
+            EnableClearType="True"
+            RenderAtScale="1"
+            SnapsToDevicePixels="True" />
+        </Grid.CacheMode>
+        <Canvas Background="{Binding SelectedBrush}" Visibility="{Binding IsMultiPageMode, Converter={StaticResource BoolToVisibilityConverter}}" />
+        <controls:CustomInkCanvas Background="Transparent"
+                                Cursor="{Binding InkCanvasCursor}"
+                                DefaultDrawingAttributes="{Binding CurrentDrawingAttributes}"
+                                EditingMode="{Binding SelectedEditingMode}"
+                                Strokes="{Binding CanvasPages.SelectedPage.Strokes}"
+                                UseCustomCursor="True" />
+        <Button HorizontalAlignment="Left"
               VerticalAlignment="Center"
               Background="{DynamicResource MaterialDesignTextFieldBoxBackground}"
               Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
               Style="{StaticResource MaterialDesignIconButton}">
-        <materialDesign:PackIcon Kind="Settings" />
-      </Button>
+          <materialDesign:PackIcon Kind="Settings" />
+        </Button>
+        <views:PageNavigationView />
+        <views:ToolBarView />
+      </Grid>
     </materialDesign:DialogHost>
-    <views:PageNavigationView />
-    <views:ToolBarView />
+    
     <materialDesign:Snackbar HorizontalAlignment="Center"
-                             VerticalAlignment="Bottom"
-                             MessageQueue="{Binding MessageQueue}" />
+                         VerticalAlignment="Bottom"
+                         MessageQueue="{Binding MessageQueue}" />
     <ProgressBar Height="10"
-                 Margin="0,0,0,6"
-                 VerticalAlignment="Bottom"
-                 IsIndeterminate="{Binding Progress.IsIndeterminate}"
-                 Visibility="{Binding Progress.IsVisible, Converter={StaticResource BoolToVisibilityConverter}}"
-                 Value="{Binding Progress.Value}" />
+             Margin="0,0,0,6"
+             VerticalAlignment="Bottom"
+             IsIndeterminate="{Binding Progress.IsIndeterminate}"
+             Visibility="{Binding Progress.IsVisible, Converter={StaticResource BoolToVisibilityConverter}}"
+             Value="{Binding Progress.Value}" />
   </Grid>
 </Window>
