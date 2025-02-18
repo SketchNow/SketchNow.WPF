@@ -11,6 +11,7 @@
                                               Type={x:Type vms:MainWindowViewModel}}"
              d:DesignHeight="300"
              d:DesignWidth="800"
+             FontFamily="Segoe UI, Arial, Microsoft YaHei UI, SimSun"
              mc:Ignorable="d">
   <UserControl.Resources>
     <valueConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />

@@ -22,5 +22,5 @@ namespace SketchNow.Views
             e.Handled = true;
         }
 
-    }
+}
 }

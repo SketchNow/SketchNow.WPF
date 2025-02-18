@@ -12,7 +12,7 @@ namespace SketchNow.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.12.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.13.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -26,36 +26,60 @@ namespace SketchNow.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool FitToCurve {
+        public bool IsFitToCurve {
             get {
-                return ((bool)(this["FitToCurve"]));
+                return ((bool)(this["IsFitToCurve"]));
             }
             set {
-                this["FitToCurve"] = value;
+                this["IsFitToCurve"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool IgnorePressure {
+        public bool IsIgnorePressure {
             get {
-                return ((bool)(this["IgnorePressure"]));
+                return ((bool)(this["IsIgnorePressure"]));
             }
             set {
-                this["IgnorePressure"] = value;
+                this["IsIgnorePressure"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool EraseByStroke {
+        public bool IsEraseByStroke {
             get {
-                return ((bool)(this["EraseByStroke"]));
+                return ((bool)(this["IsEraseByStroke"]));
             }
             set {
-                this["EraseByStroke"] = value;
+                this["IsEraseByStroke"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFFFFFF")]
+        public global::System.Windows.Media.Brush SelectedBackground {
+            get {
+                return ((global::System.Windows.Media.Brush)(this["SelectedBackground"]));
+            }
+            set {
+                this["SelectedBackground"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int StrokeSize {
+            get {
+                return ((int)(this["StrokeSize"]));
+            }
+            set {
+                this["StrokeSize"] = value;
             }
         }
     }
