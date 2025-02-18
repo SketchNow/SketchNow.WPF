@@ -198,4 +198,7 @@
   <data name="DownloadedUpdatesPleaseWait" xml:space="preserve">
     <value>Downloaded updates. Please wait...</value>
   </data>
+  <data name="Visibility" xml:space="preserve">
+    <value>Visibility</value>
+  </data>
 </root>

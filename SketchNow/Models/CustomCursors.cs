@@ -13,7 +13,7 @@ public interface ICustomCursors
 public class CustomCursors : ICustomCursors
 {
     /// <summary>
-    /// 
+    /// Load a cursor from the resources
     /// </summary>
     /// <param name="resourcePath"></param>
     /// <returns></returns>

@@ -2,14 +2,20 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SketchNow.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="FitToCurve" Type="System.Boolean" Scope="User">
+    <Setting Name="IsFitToCurve" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="IgnorePressure" Type="System.Boolean" Scope="User">
+    <Setting Name="IsIgnorePressure" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="EraseByStroke" Type="System.Boolean" Scope="User">
+    <Setting Name="IsEraseByStroke" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="SelectedBackground" Type="System.Windows.Media.Brush" Scope="User">
+      <Value Profile="(Default)">#FFFFFFFF</Value>
+    </Setting>
+    <Setting Name="StrokeSize" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5</Value>
     </Setting>
   </Settings>
 </SettingsFile>
