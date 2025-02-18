@@ -1,19 +1,26 @@
-﻿using System.Windows.Input;
+﻿using System.Diagnostics;
+using System.Windows.Input;
 
 using SketchNow.ViewModels;
+using SketchNow.Views;
 
-namespace SketchNow.Views;
+namespace SketchNow;
 
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>
 public partial class MainWindow
 {
-    public MainWindow(MainWindowViewModel viewModel)
+    public MainWindow(
+        MainWindowViewModel mainViewModel,
+        SettingsViewModel settingsViewModel)
     {
-        DataContext = viewModel;
         InitializeComponent();
+        Debug.WriteLine("Ctor=============");
         
+        DataContext = mainViewModel;
+        SettingsView.DataContext = settingsViewModel;
+
         CommandBindings.Add(new CommandBinding(ApplicationCommands.Close, OnClose));
     }
 

@@ -189,13 +189,16 @@
   <data name="InstallAndUpdate" xml:space="preserve">
     <value>安装并更新</value>
   </data>
-  <data name="DownloadingUpdatesPleaseWait" xml:space="preserve">
-    <value>下载更新中，请稍等...</value>
-  </data>
   <data name="UpdatesAreNotAvailable" xml:space="preserve">
     <value>更新不可用。</value>
   </data>
+  <data name="DownloadingUpdatesPleaseWait" xml:space="preserve">
+    <value>下载更新中，请稍等...</value>
+  </data>
   <data name="DownloadedUpdatesPleaseWait" xml:space="preserve">
     <value>更新下载完成，请稍等...</value>
+  </data>
+  <data name="Visibility" xml:space="preserve">
+    <value>可见性</value>
   </data>
 </root>

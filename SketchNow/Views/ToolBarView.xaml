@@ -16,6 +16,7 @@
                                               Type={x:Type vms:MainWindowViewModel}}"
              d:DesignHeight="300"
              d:DesignWidth="800"
+             FontFamily="Segoe UI, Arial, Microsoft YaHei UI, SimSun"
              mc:Ignorable="d">
   <UserControl.Resources>
     <valueConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -24,19 +25,26 @@
     <converters:DivisionMathConverter x:Key="DivisionMathConverter" />
   </UserControl.Resources>
   <jas:DragCanvas>
-    <StackPanel Canvas.Left="{Binding (Canvas.Left), ElementName=ToolBar, ConverterParameter=81, Converter={StaticResource MathAddConverter}}"
+    <StackPanel Canvas.Left="{Binding (Canvas.Left), ElementName=ToolBar, ConverterParameter=0, Converter={StaticResource MathAddConverter}}"
                 Canvas.Top="{Binding (Canvas.Top), ElementName=ToolBar, ConverterParameter=65, Converter={StaticResource MathAddConverter}}"
                 jas:DragCanvas.CanBeDragged="False"
                 Orientation="Horizontal">
-      <Button Command="{Binding CanvasPages.SelectedPage.UndoCommand}"
-              Content="{materialDesign:PackIcon Kind=Undo}"
-              Style="{StaticResource MaterialDesignPaperDarkButton}" />
-      <Button Command="{Binding CanvasPages.SelectedPage.RedoCommand}"
-              Content="{materialDesign:PackIcon Kind=Redo}"
-              Style="{StaticResource MaterialDesignPaperDarkButton}" />
-      <Button Command="{Binding CanvasPages.SelectedPage.ClearCommand}"
-              Content="{materialDesign:PackIcon Kind=Delete}"
-              Style="{StaticResource MaterialDesignPaperDarkButton}" />
+      <CheckBox x:Name="ToggleToolBarVisibility"
+                Content="{x:Static properties:Resource.Visibility}"
+                IsChecked="True"
+                Style="{StaticResource MaterialDesignFilterChipCheckBox}" />
+      <StackPanel Orientation="Horizontal" Visibility="{Binding IsChecked, ElementName=ToggleToolBarVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
+        <Button Command="{Binding CanvasPages.SelectedPage.UndoCommand}"
+                Content="{materialDesign:PackIcon Kind=Undo}"
+                Style="{StaticResource MaterialDesignPaperDarkButton}" />
+        <Button Command="{Binding CanvasPages.SelectedPage.RedoCommand}"
+                Content="{materialDesign:PackIcon Kind=Redo}"
+                Style="{StaticResource MaterialDesignPaperDarkButton}" />
+        <Button Command="{Binding CanvasPages.SelectedPage.ClearCommand}"
+                Content="{materialDesign:PackIcon Kind=Delete}"
+                Style="{StaticResource MaterialDesignPaperDarkButton}" />
+      </StackPanel>
+
     </StackPanel>
     <StackPanel x:Name="ToolBar"
                 Canvas.Left="{Binding ActualWidth, ElementName=TooBarControl, Converter={StaticResource DivisionMathConverter}, ConverterParameter=1.75}"
@@ -53,7 +61,8 @@
       </ListBox>
       <ListBox Margin="2"
                SelectedIndex="{Binding SelectedToolIndex}"
-               Style="{StaticResource MaterialDesignToolToggleListBox}">
+               Style="{StaticResource MaterialDesignToolToggleListBox}"
+               Visibility="{Binding IsChecked, ElementName=ToggleToolBarVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
         <ListBoxItem>
           <controls:IconWithText Kind="CursorDefault"
                                  Text="{x:Static properties:Resource.Cursor}"
@@ -90,36 +99,38 @@
         </ListBoxItem>
       </ListBox>
     </StackPanel>
-    <StackPanel Canvas.Left="{Binding (Canvas.Left), Converter={StaticResource MathAddConverter}, ElementName=ToolBar, ConverterParameter=80}"
-                Canvas.Top="{Binding (Canvas.Top), ConverterParameter=-36, Converter={StaticResource MathAddConverter}, ElementName=ToolBar}"
-                jas:DragCanvas.CanBeDragged="False"
-                Orientation="Horizontal"
-                Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisibilityConverter}, ElementName=ToolBarPen}">
-      <ListBox x:Name="ColorList"
-               Margin="1"
-               ItemsSource="{Binding ColorList}"
-               SelectedIndex="0"
-               SelectedItem="{Binding SelectedColor, Mode=TwoWay}"
-               Style="{StaticResource MaterialDesignToolToggleListBox}">
-        <ListBox.ItemTemplate>
-          <DataTemplate DataType="materialDesign:PackIcon">
-            <materialDesign:PackIcon Foreground="{Binding Converter={StaticResource ColorToBrushConverter}}" Kind="Circle" />
-          </DataTemplate>
-        </ListBox.ItemTemplate>
-      </ListBox>
-      <ListBox Margin="1"
-               ItemsSource="{Binding StrokeSizeList}"
-               SelectedIndex="0"
-               SelectedItem="{Binding SelectedStrokeSize}"
-               Style="{StaticResource MaterialDesignToolToggleListBox}">
-        <ListBox.ItemTemplate>
-          <DataTemplate DataType="materialDesign:PackIcon">
-            <materialDesign:PackIcon Width="{Binding}"
-                                     Foreground="{Binding SelectedItem, ElementName=ColorList, Converter={StaticResource ColorToBrushConverter}}"
-                                     Kind="Circle" />
-          </DataTemplate>
-        </ListBox.ItemTemplate>
-      </ListBox>
-    </StackPanel>
+    <Grid Canvas.Left="{Binding (Canvas.Left), Converter={StaticResource MathAddConverter}, ElementName=ToolBar, ConverterParameter=80}"
+          Canvas.Top="{Binding (Canvas.Top), ConverterParameter=-36, Converter={StaticResource MathAddConverter}, ElementName=ToolBar}"
+          jas:DragCanvas.CanBeDragged="False"
+          Visibility="{Binding IsChecked, ElementName=ToggleToolBarVisibility, Converter={StaticResource BoolToVisibilityConverter}}">
+      <StackPanel Orientation="Horizontal" Visibility="{Binding IsSelected, Converter={StaticResource BoolToVisibilityConverter}, ElementName=ToolBarPen}">
+        <ListBox x:Name="ColorList"
+                 Margin="1"
+                 ItemsSource="{Binding ColorList}"
+                 SelectedIndex="0"
+                 SelectedItem="{Binding SelectedColor, Mode=TwoWay}"
+                 Style="{StaticResource MaterialDesignToolToggleListBox}">
+          <ListBox.ItemTemplate>
+            <DataTemplate DataType="materialDesign:PackIcon">
+              <materialDesign:PackIcon Foreground="{Binding Converter={StaticResource ColorToBrushConverter}}" Kind="Circle" />
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox Margin="1"
+                 ItemsSource="{Binding StrokeSizeList}"
+                 SelectedIndex="0"
+                 SelectedItem="{Binding SelectedStrokeSize}"
+                 Style="{StaticResource MaterialDesignToolToggleListBox}">
+          <ListBox.ItemTemplate>
+            <DataTemplate DataType="materialDesign:PackIcon">
+              <materialDesign:PackIcon Width="{Binding}"
+                                       Foreground="{Binding SelectedItem, ElementName=ColorList, Converter={StaticResource ColorToBrushConverter}}"
+                                       Kind="Circle" />
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>
+      </StackPanel>
+    </Grid>
+
   </jas:DragCanvas>
 </UserControl>

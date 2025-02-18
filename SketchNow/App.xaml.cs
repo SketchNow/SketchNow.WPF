@@ -1,4 +1,8 @@
-﻿using System.Text;
+﻿using System.Reflection;
+using System.Text;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Threading;
 
 using CommunityToolkit.Mvvm.Messaging;
 
@@ -8,13 +12,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+using SingleInstanceCore;
+
 using SketchNow.ViewModels;
 using SketchNow.Views;
-
-using System.Windows;
-using System.Windows.Threading;
-
-using SingleInstanceCore;
 
 using Velopack;
 using Velopack.Sources;
@@ -51,6 +52,7 @@ public partial class App : Application, ISingleInstance
         //to suppress the CA2007 warning https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca2007
         await host.StopAsync().ConfigureAwait(true);
     }
+
     public static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder(args)
             .ConfigureAppConfiguration((hostBuilderContext, configurationBuilder)
@@ -59,6 +61,7 @@ public partial class App : Application, ISingleInstance
             {
                 services.AddSingleton<MainWindow>();
                 services.AddSingleton<MainWindowViewModel>();
+                services.AddSingleton<SettingsViewModel>();
 
                 services.AddSingleton<WeakReferenceMessenger>();
                 services.AddSingleton<IMessenger, WeakReferenceMessenger>(provider =>

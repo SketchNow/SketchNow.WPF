@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -8,6 +8,9 @@
     <StartupObject>SketchNow.App</StartupObject>
     <ApplicationIcon>Resources\AppIcon.ico</ApplicationIcon>
     <Version>1.0.1</Version>
+    <RepositoryUrl>https://github.com/SketchNow/SketchNow.WPF</RepositoryUrl>
+
+    <IncludeMaterialDesignFont>False</IncludeMaterialDesignFont>
   </PropertyGroup>
 
   <!--
@@ -34,6 +37,10 @@
     <None Remove="Resources\Circle.cur" />
     <None Remove="Resources\Remove.cur" />
     <None Remove="Resources\Select.cur" />
+    <None Include="..\..\..\..\source\templates\Avalonia\AvaloniaDesktop\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <Page Include="App.xaml" />
   </ItemGroup>
 
