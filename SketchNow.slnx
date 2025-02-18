@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
+    <File Path="Directory.Packages.props" />
+    <File Path="exclusions.dic" />
+    <File Path="NuGet.config" />
+    <File Path="Settings.XamlStyler" />
+  </Folder>
+  <Project Path="SketchNow.Tests/SketchNow.Tests.csproj" />
+  <Project Path="SketchNow/SketchNow.csproj" />
+</Solution>
