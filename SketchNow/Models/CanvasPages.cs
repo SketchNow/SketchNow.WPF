@@ -8,16 +8,17 @@ namespace SketchNow.Models;
 
 public partial class CanvasPage : ObservableObject
 {
-    [ObservableProperty] private StrokeCollection _strokes = [];
+    [ObservableProperty]
+    public partial StrokeCollection Strokes { get; set; } = [];
 
     #region Undo/Redo
 
     /// <summary>
-    /// To Notify the Not ObservableProperty <see cref="_strokes"/>
+    /// To Notify the Not ObservableProperty <see cref="Strokes"/>
     /// </summary>
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(UndoCommand), nameof(RedoCommand), nameof(ClearCommand))]
-    private int _counter;
+    public partial int Counter { get; set; }
 
     private readonly ObservableCollection<StrokeCollection> _undoStack = [];
     private readonly ObservableCollection<StrokeCollection> _redoStack = [];
@@ -77,7 +78,7 @@ public partial class CanvasPage : ObservableObject
     {
         // Listen for changes in the Strokes property
         Strokes.StrokesChanged += Strokes_Changed;
-        _undoStack.Add(CloneStrokeCollection(_strokes));
+        _undoStack.Add(CloneStrokeCollection(Strokes));
     }
 
     [RelayCommand(CanExecute = nameof(CanClear))]
