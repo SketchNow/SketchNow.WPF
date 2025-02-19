@@ -6,10 +6,10 @@ namespace SketchNow.Controls;
 
 public class CustomInkCanvas : InkCanvas
 {
-    CustomStylusPlugin _customStylusPlugin = new();
+    private readonly CustomStylusPlugin _customStylusPlugin = new();
 
     public CustomInkCanvas()
     {
-        this.StylusPlugIns.Add(_customStylusPlugin);
+        StylusPlugIns.Add(_customStylusPlugin);
     }
 }

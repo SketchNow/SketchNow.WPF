@@ -9,16 +9,16 @@ namespace SketchNow.Models;
 public partial class Settings : ObservableObject
 {
     [ObservableProperty]
-    private bool _isFitToCurve;
+    public partial bool IsFitToCurve { get; set; }
 
     [ObservableProperty]
-    private bool _isIgnorePressure;
+    public partial bool IsIgnorePressure { get; set; }
 
     [ObservableProperty]
-    private bool _isEraseByStroke;
+    public partial bool IsEraseByStroke { get; set; }
 
     [ObservableProperty]
-    private Brush _selectedBackground;
+    public partial Brush SelectedBackground { get; set; }
 
     public Settings()
     {

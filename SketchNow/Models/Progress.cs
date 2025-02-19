@@ -5,9 +5,11 @@ namespace SketchNow.Models;
 public partial class Progress : ObservableObject
 {
     [ObservableProperty]
-    private int _value;
+    public partial int Value { get; set; }
+
     [ObservableProperty]
-    private bool _isIndeterminate;
+    public partial bool IsIndeterminate { get; set; }
+
     [ObservableProperty]
-    private bool _isVisible;
+    public partial bool IsVisible { get; set; }
 }
