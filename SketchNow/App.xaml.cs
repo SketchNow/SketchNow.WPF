@@ -12,6 +12,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+using Serilog;
+
 using SingleInstanceCore;
 
 using SketchNow.ViewModels;
@@ -56,9 +58,12 @@ public partial class App : Application, ISingleInstance
     public static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder(args)
             .ConfigureAppConfiguration((hostBuilderContext, configurationBuilder)
-                => configurationBuilder.AddUserSecrets(typeof(App).Assembly))
+                => configurationBuilder.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                                       .AddUserSecrets(typeof(App).Assembly))
             .ConfigureServices((hostContext, services) =>
             {
+                services.AddLogging(configure => configure.AddSerilog(new LoggerConfiguration().ReadFrom.Configuration(hostContext.Configuration).CreateLogger()));
+
                 services.AddSingleton<MainWindow>();
                 services.AddSingleton<MainWindowViewModel>();
                 services.AddSingleton<SettingsViewModel>();
@@ -80,8 +85,8 @@ public partial class App : Application, ISingleInstance
 #if !DEBUG
     public App()
     {
-        this.Startup += Application_Startup;
-        this.Exit += Application_Exit;
+        Startup += Application_Startup;
+        Exit += Application_Exit;
     }
 
     void Application_Startup(object sender, StartupEventArgs e)
@@ -118,11 +123,15 @@ public partial class App : Application, ISingleInstance
             MessageBox.Show(
                 $"UI thread meets an exception: {e.Exception.Message}{Environment.NewLine}{e.Exception.StackTrace}",
                 "Unhandled Exception", MessageBoxButton.OK, MessageBoxImage.Error);
+
+            Log.Error(e.Exception, "UI thread meets an exception");
         }
         catch (Exception ex)
         {
             MessageBox.Show($"UI thread meets a fatal exception! {ex.Message}{Environment.NewLine}{ex.StackTrace}",
                 "Unhandled Exception", MessageBoxButton.OK, MessageBoxImage.Error);
+
+            Log.Error(ex, "UI thread meets a fatal exception");
         }
     }
 
@@ -145,6 +154,8 @@ public partial class App : Application, ISingleInstance
         }
 
         MessageBox.Show(sbEx.ToString());
+
+        Log.Error(e.ExceptionObject as Exception, "Non-UI thread meets exception");
     }
 
     static void TaskSchedulerUnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
@@ -152,6 +163,8 @@ public partial class App : Application, ISingleInstance
         MessageBox.Show(
             $"Task thread meets exception：{e.Exception.Message}{Environment.NewLine}{e.Exception.StackTrace}",
             "Unobserved Task", MessageBoxButton.OK, MessageBoxImage.Error);
+
+        Log.Error(e.Exception, "Task thread meets exception");
         e.SetObserved();
     }
 #endif
