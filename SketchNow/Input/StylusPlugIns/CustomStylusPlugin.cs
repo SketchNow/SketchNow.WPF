@@ -1,4 +1,3 @@
-using System.Windows.Input;
 using System.Windows.Input.StylusPlugIns;
 
 namespace SketchNow.Input.StylusPlugIns;

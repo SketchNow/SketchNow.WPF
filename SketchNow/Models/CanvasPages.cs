@@ -24,7 +24,7 @@ public partial class CanvasPage : ObservableObject
     private readonly ObservableCollection<StrokeCollection> _redoStack = [];
 
     /// <summary>
-    /// Notify the Not ObservableProperty <see cref="_strokes"/>
+    /// Notify the Not ObservableProperty <see cref="Strokes"/>
     /// </summary>
     private void ChangeCounter()
     {
