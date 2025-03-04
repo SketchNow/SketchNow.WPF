@@ -16,7 +16,6 @@ public partial class MainWindow
         SettingsViewModel settingsViewModel)
     {
         InitializeComponent();
-        Debug.WriteLine("Ctor=============");
         
         DataContext = mainViewModel;
         SettingsView.DataContext = settingsViewModel;
