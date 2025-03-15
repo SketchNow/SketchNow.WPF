@@ -9,6 +9,7 @@ using Velopack.Sources;
 using System.Windows;
 using System.Collections.ObjectModel;
 using System.Windows.Media;
+using SketchNow.Services;
 
 namespace SketchNow.ViewModels;
 
@@ -44,23 +45,25 @@ public partial class SettingsViewModel : ObservableRecipient
         }
     ];
 
-    public SettingsViewModel(IMessenger messenger, ISnackbarMessageQueue messageQueue)
+    public SettingsViewModel(IMessenger messenger, ISnackbarMessageQueue messageQueue, ISketchNowConfigurationService sketchNowConfigurationService)
     {
         MessageQueue = messageQueue ?? throw new ArgumentNullException(nameof(messageQueue));
         IsActive = true;
+        _sketchNowConfiguration = sketchNowConfigurationService;
+        Settings = _sketchNowConfiguration.Settings;
 
         Settings.PropertyChanged += (_, _) =>
         {
-            Settings.SaveSettingsCommand.Execute(null);
+            _sketchNowConfiguration.Settings = Settings;
             messenger.Send(
-                new ValueChangedMessage<Settings>(Settings)
+                new ValueChangedMessage<SketchNowSettings>(Settings)
             );
         };
     }
 
     [ObservableProperty]
     [NotifyPropertyChangedRecipients]
-    public partial Settings Settings { get; set; } = new();
+    public partial SketchNowSettings Settings { get ; set ;}
 
     [ObservableProperty] public partial ISnackbarMessageQueue MessageQueue { get; set; }
 
@@ -72,6 +75,7 @@ public partial class SettingsViewModel : ObservableRecipient
 
     [ObservableProperty] public partial Progress Progress { get; set; } = new();
     readonly UpdateManager _mgr = new(new GithubSource(@"https://github.com/SketchNow/SketchNow.WPF", null, false));
+    private readonly ISketchNowConfigurationService _sketchNowConfiguration;
 
     [RelayCommand]
     private async Task CheckForUpdates()

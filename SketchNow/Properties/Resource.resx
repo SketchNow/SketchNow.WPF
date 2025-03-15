@@ -201,4 +201,7 @@
   <data name="Visibility" xml:space="preserve">
     <value>Visibility</value>
   </data>
+  <data name="InvalidPressureValue" xml:space="preserve">
+    <value>Invalid pressure value</value>
+  </data>
 </root>
