@@ -14,7 +14,7 @@ using SketchNow.Models.Enums;
 
 namespace SketchNow.ViewModels;
 
-public partial class MainWindowViewModel : ObservableRecipient, IRecipient<ValueChangedMessage<Settings>>
+public partial class MainWindowViewModel : ObservableRecipient, IRecipient<ValueChangedMessage<SketchNowSettings>>
 {
     public MainWindowViewModel(IMessenger messenger)
     {
@@ -123,7 +123,7 @@ public partial class MainWindowViewModel : ObservableRecipient, IRecipient<Value
 
     [ObservableProperty] public partial Brush WindowBackgroundBrush { get; set; } = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
 
-    public void Receive(ValueChangedMessage<Settings> message)
+    public void Receive(ValueChangedMessage<SketchNowSettings> message)
     {
         CurrentDrawingAttributes.FitToCurve = message.Value.IsFitToCurve;
         CurrentDrawingAttributes.IgnorePressure = message.Value.IsIgnorePressure;
@@ -133,7 +133,7 @@ public partial class MainWindowViewModel : ObservableRecipient, IRecipient<Value
 
 
     /// <summary>
-    /// Synchronize with <see cref="Settings.IsEraseByStroke"/>
+    /// Synchronize with <see cref="SketchNowSettings.IsEraseByStroke"/>
     /// </summary>
     [ObservableProperty] public partial bool IsEraseByStroke { get; set; } = Properties.Settings.Default.IsEraseByStroke;
     partial void OnIsEraseByStrokeChanged(bool value)
@@ -148,7 +148,7 @@ public partial class MainWindowViewModel : ObservableRecipient, IRecipient<Value
     }
 
     /// <summary>
-    /// Synchronize with <see cref="Settings.IsFitToCurve"/>
+    /// Synchronize with <see cref="SketchNowSettings.IsFitToCurve"/>
     /// </summary>
     [ObservableProperty]
     private Brush _selectedBackground = Properties.Settings.Default.SelectedBackground;

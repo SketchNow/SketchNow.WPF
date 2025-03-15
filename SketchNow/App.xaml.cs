@@ -16,6 +16,7 @@ using Serilog;
 
 using SingleInstanceCore;
 
+using SketchNow.Services;
 using SketchNow.ViewModels;
 using SketchNow.Views;
 
@@ -67,6 +68,8 @@ public partial class App : Application, ISingleInstance
                 services.AddSingleton<MainWindow>();
                 services.AddSingleton<MainWindowViewModel>();
                 services.AddSingleton<SettingsViewModel>();
+
+                services.AddSingleton<ISketchNowConfigurationService, SketchNowConfigurationService>();
 
                 services.AddSingleton<WeakReferenceMessenger>();
                 services.AddSingleton<IMessenger, WeakReferenceMessenger>(provider =>

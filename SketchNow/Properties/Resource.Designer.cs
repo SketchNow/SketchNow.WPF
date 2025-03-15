@@ -196,6 +196,15 @@ namespace SketchNow.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid pressure value.
+        /// </summary>
+        public static string InvalidPressureValue {
+            get {
+                return ResourceManager.GetString("InvalidPressureValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Move.
         /// </summary>
         public static string Move {
