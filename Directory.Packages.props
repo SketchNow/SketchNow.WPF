@@ -34,7 +34,7 @@
     <PackageVersion Include="Serilog.Extensions.Hosting" Version="9.0.0" />
     <PackageVersion Include="Serilog.Extensions.Logging" Version="9.0.1" />
     <PackageVersion Include="Serilog.Settings.Configuration" Version="9.0.0" />
-    <PackageVersion Include="Serilog.Sinks.File" Version="6.0.0" />
+    <PackageVersion Include="Serilog.Sinks.File" Version="7.0.0" />
     <PackageVersion Include="SingleInstanceCore" Version="2.2.2" />
     <PackageVersion Include="System.Text.Json" Version="9.0.4" />
     <PackageVersion Include="ValueConverters" Version="3.1.22" />
