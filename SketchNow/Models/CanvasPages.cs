@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.Windows.Ink;
 
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -95,7 +95,9 @@ public partial class CanvasPages : ObservableObject
     /// <summary>
     /// Page 1 was reserved by default desktop canvas. For the convenience of managing <see cref="CanvasPages"/>, the latter <see cref="CanvasPages"/> are Board pages.
     /// </summary>
-    [ObservableProperty] private ObservableCollection<CanvasPage> _pages = [new()];
+    [ObservableProperty]
+    public partial ObservableCollection<CanvasPage> Pages { get; set; } = [new()];
+
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(SelectedPage))]
