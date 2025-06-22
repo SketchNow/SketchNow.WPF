@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging.Messages;
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.Mvvm.Input;
@@ -45,7 +45,11 @@ public partial class SettingsViewModel : ObservableRecipient
         }
     ];
 
-    public SettingsViewModel(IMessenger messenger, ISnackbarMessageQueue messageQueue, ISketchNowConfigurationService sketchNowConfigurationService)
+    public SettingsViewModel(
+        IMessenger messenger,
+        ISnackbarMessageQueue messageQueue,
+        ISketchNowConfigurationService sketchNowConfigurationService
+        )
     {
         MessageQueue = messageQueue ?? throw new ArgumentNullException(nameof(messageQueue));
         IsActive = true;
@@ -74,7 +78,7 @@ public partial class SettingsViewModel : ObservableRecipient
     }
 
     [ObservableProperty] public partial Progress Progress { get; set; } = new();
-    readonly UpdateManager _mgr = new(new GithubSource(@"https://github.com/SketchNow/SketchNow.WPF", null, false));
+    readonly UpdateManager _mgr = new(new GithubSource("https://github.com/SketchNow/SketchNow.WPF", null, false));
     private readonly ISketchNowConfigurationService _sketchNowConfiguration;
 
     [RelayCommand]
@@ -91,14 +95,18 @@ public partial class SettingsViewModel : ObservableRecipient
             MessageQueue.Enqueue(e.Message);
         }
         if (newVersion != null)
+        {
             MessageQueue.Enqueue(Properties.Resource.NewVersionFound, Properties.Resource.InstallAndUpdate,
-                _ => UpdateAppCommand.ExecuteAsync(newVersion),
-                null,
-                false,
-                true,
-                TimeSpan.FromSeconds(10));
+                        _ => UpdateAppCommand.ExecuteAsync(newVersion),
+                        null,
+                        false,
+                        true,
+                        TimeSpan.FromSeconds(10));
+        }
         else
+        {
             MessageQueue.Enqueue(Properties.Resource.UpdatesAreNotAvailable);
+        }
     }
 
     [RelayCommand]
@@ -117,7 +125,4 @@ public partial class SettingsViewModel : ObservableRecipient
         Progress.IsIndeterminate = true;
         _mgr.ApplyUpdatesAndRestart(newVersion);
     }
-
 }
-
-

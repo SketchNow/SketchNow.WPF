@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Windows.Ink;
 using System.Windows.Input;
@@ -151,5 +151,5 @@ public partial class MainWindowViewModel : ObservableRecipient, IRecipient<Value
     /// Synchronize with <see cref="SketchNowSettings.IsFitToCurve"/>
     /// </summary>
     [ObservableProperty]
-    private Brush _selectedBackground = Properties.Settings.Default.SelectedBackground;
+    public partial Brush SelectedBackground { get; set; } = Properties.Settings.Default.SelectedBackground;
 }
