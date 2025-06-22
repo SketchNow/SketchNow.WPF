@@ -16,28 +16,78 @@
   <UserControl.Resources>
     <valueConverters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
   </UserControl.Resources>
-  <StackPanel Margin="5"
-              HorizontalAlignment="Right"
-              VerticalAlignment="Bottom"
-              Background="#09000000"
-              Orientation="Horizontal"
-              Visibility="{Binding IsMultiPageMode, Converter={StaticResource BoolToVisibilityConverter}}">
-    <Button Height="48"
-            Command="{Binding CanvasPages.PreviousCommand}"
-            Content="{materialDesign:PackIcon Kind=ArrowLeft}"
-            Style="{StaticResource MaterialDesignFlatButton}" />
-    <Button Height="48"
-            Command="{Binding CanvasPages.NextCommand}"
-            Content="{materialDesign:PackIcon Kind=ArrowRight}"
-            Style="{StaticResource MaterialDesignFlatButton}" />
-    <Button Width="200"
-            Height="48"
-            Style="{StaticResource MaterialDesignFlatButton}">
-      <TextBlock VerticalAlignment="Center"><Run Text="{Binding CanvasPages.SelectedIndex, Mode=OneWay}" /><Run Text=" / " /><Run Text="{Binding CanvasPages.Pages.Count, ConverterParameter=-1, Converter={StaticResource MathAddConverter}, Mode=OneWay}" /></TextBlock>
-    </Button>
-    <Button Height="48"
-            Command="{Binding CanvasPages.AddPageCommand}"
-            Content="{materialDesign:PackIcon Kind=Plus}"
-            Style="{StaticResource MaterialDesignFlatButton}" />
-  </StackPanel>
+  <materialDesign:DrawerHost Margin="5"
+                             OpenMode="Standard"
+                             Visibility="{Binding IsMultiPageMode, Converter={StaticResource BoolToVisibilityConverter}}">
+    <materialDesign:DrawerHost.BottomDrawerContent>
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Button Grid.Column="0"
+                Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
+                DockPanel.Dock="Left"
+                Style="{StaticResource MaterialDesignIconButton}"
+                ToolTip="MaterialDesignIconButton">
+          <materialDesign:PackIcon Kind="Close" />
+        </Button>
+        <ScrollViewer Grid.Column="1"
+                      HorizontalScrollBarVisibility="Auto"
+                      VerticalScrollBarVisibility="Hidden">
+          <ListBox ItemsSource="{Binding CanvasPages.Pages}" SelectedIndex="{Binding CanvasPages.SelectedIndex}">
+            <ListBox.ItemTemplate>
+              <DataTemplate>
+                <InkPresenter Width="100"
+                              Height="50"
+                              Strokes="{Binding Strokes}">
+                  <InkPresenter.RenderTransform>
+                    <ScaleTransform ScaleX="0.05" ScaleY="0.05" />
+                  </InkPresenter.RenderTransform>
+                </InkPresenter>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ItemsPanel>
+              <ItemsPanelTemplate>
+                <VirtualizingStackPanel Orientation="Horizontal" />
+              </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+          </ListBox>
+        </ScrollViewer>
+
+        <Button Grid.Column="2"
+                Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
+                DockPanel.Dock="Right"
+                Style="{StaticResource MaterialDesignIconButton}"
+                ToolTip="MaterialDesignIconButton">
+          <materialDesign:PackIcon Kind="Close" />
+        </Button>
+      </Grid>
+    </materialDesign:DrawerHost.BottomDrawerContent>
+    <StackPanel HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Background="#09000000"
+                Orientation="Horizontal">
+      <Button Height="48"
+              Command="{Binding CanvasPages.PreviousCommand}"
+              Content="{materialDesign:PackIcon Kind=ArrowLeft}"
+              Style="{StaticResource MaterialDesignFlatButton}" />
+      <Button Height="48"
+              Command="{Binding CanvasPages.NextCommand}"
+              Content="{materialDesign:PackIcon Kind=ArrowRight}"
+              Style="{StaticResource MaterialDesignFlatButton}" />
+      <Button Width="200"
+              Height="48"
+              Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
+              Style="{StaticResource MaterialDesignFlatButton}">
+        <TextBlock VerticalAlignment="Center"><Run Text="{Binding CanvasPages.SelectedIndex, Mode=OneWay}" /><Run Text=" / " /><Run Text="{Binding CanvasPages.Pages.Count, ConverterParameter=-1, Converter={StaticResource MathAddConverter}, Mode=OneWay}" /></TextBlock>
+      </Button>
+      <Button Height="48"
+              Command="{Binding CanvasPages.AddPageCommand}"
+              Content="{materialDesign:PackIcon Kind=Plus}"
+              Style="{StaticResource MaterialDesignFlatButton}" />
+    </StackPanel>
+  </materialDesign:DrawerHost>
+
 </UserControl>
