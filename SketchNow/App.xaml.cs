@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Media;
@@ -33,9 +33,7 @@ public partial class App : Application, ISingleInstance
     [STAThread]
     private static void Main(string[] args)
     {
-#if !DEBUG
         VelopackApp.Build().Run();
-#endif
         MainAsync(args).GetAwaiter().GetResult();
     }
 
