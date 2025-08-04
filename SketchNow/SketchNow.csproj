@@ -7,7 +7,7 @@
     <UseWPF>true</UseWPF>
     <StartupObject>SketchNow.App</StartupObject>
     <ApplicationIcon>Resources\AppIcon.ico</ApplicationIcon>
-    <Version>1.1.2</Version>
+    <Version>1.1.3</Version>
     <RepositoryUrl>https://github.com/SketchNow/SketchNow.WPF</RepositoryUrl>
 
     <IncludeMaterialDesignFont>False</IncludeMaterialDesignFont>
